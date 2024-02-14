@@ -2,10 +2,11 @@
 .divFeedListContainer {
 	display: table-cell;
 	vertical-align: top;
-	width: 300px;
+	width: 240px;
+	margin-right: 10px;
 	}
 .divMyFeedList {
-	width: 90%;
+	width: 100%;
 	border: 1px solid silver;
 	}
 .trMyFeed {

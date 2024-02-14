@@ -1,24 +1,24 @@
-#### 2/6/24; 10:11:03 AM by DW
+#### 2/14/24; 10:55:21 AM by DW
 
-Menu stuff
+Pulled out of a larger project, realized this should be a feature that should be included in lots of projects.
 
-Removed View user info, Reload site list and Docs from menu.
+#### 2/13/24; 10:50:25 AM by DW
 
-Added View in WordPress command.
+#### Big question, when moving an item to the top of the list, should we do the restructuring with jQuery or rebuild the list.
 
-Wrote a What is word.social? doc in the product. 
+restructuring with jQuery is appealing, but I learned that when you do this you can lose the event handlers attached to the node you're moving
 
-Adding a chronologic feed list
+since we use event handlers a lot, this means a lot of extra complexity to get all that working, much quicker to just rebuild
 
+but, the problem with that is how do you remember the state of the node you're moving, whether it's expanded or collapsed, for now, but likely to be other things in the future.
 
+i'm going to go the rebuilding note, but i wanted to leave this here because i keep going back and forth on it, and expect to keep doing so.
 
-#### 1/10/24; 4:51:14 PM by DW
+#### And then I changed my mind again! There's so much stuff that needs to be recalculated, better to just redraw the whole thing
 
-Started.
+i got around saving expansion state in local storage by adding a value to the feed record we have for each feed we're viewing. 
 
-To make the History menu work, we need to define what it means to edit another post.
+it's kind of a hack, but it worked the first time. i don't like saving stuff in localstorage anyway, we need identity for that
 
-Probably to make the New command work too. 
-
-We don't currently have it so we can swap a new document into the edit box. 
+if this thing becomes a serious project, we'll add identity.
 

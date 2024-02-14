@@ -9,6 +9,60 @@ const urlFeedListOpml = "http://scripting.com/publicfolder/feedland/subscription
 
 
 
+function openFeedlandSocket (userOptions) { //2/11/24 by DW
+	var options = {
+		feedUpdatedCallback: function (theFeed) {
+			}
+		};
+	if (userOptions !== undefined) {
+		for (var x in userOptions) {
+			if (userOptions [x] !== undefined) {
+				options [x] = userOptions [x];
+				}
+			}
+		}
+	var mySocket = undefined;
+	function checkConnection () {
+		if (mySocket === undefined) {
+			mySocket = new WebSocket (appConsts.urlSocketServer); 
+			mySocket.onopen = function (evt) {
+				const s = "hello world";
+				console.log ("openFeedlandSocket: sending: " + s);
+				mySocket.send (s);
+				};
+			mySocket.onmessage = function (evt) {
+				function getPayload (jsontext) {
+					var thePayload = undefined;
+					try {
+						thePayload = JSON.parse (jsontext);
+						}
+					catch (err) {
+						}
+					return (thePayload);
+					}
+				if (evt.data !== undefined) { //no error
+					var theCommand = stringNthField (evt.data, "\r", 1);
+					var jsontext = stringDelete (evt.data, 1, theCommand.length + 1);
+					var thePayload = getPayload (jsontext);
+					switch (theCommand) {
+						case "updatedFeed":
+							if (appConsts.flShowSocketMessages) {
+								console.log (nowstring () + ": " + thePayload.title + ", id == " + thePayload.feedUrl);
+								}
+							options.feedUpdatedCallback (thePayload);
+							break;
+						}
+					}
+				};
+			mySocket.onclose = function (evt) {
+				mySocket = undefined;
+				};
+			mySocket.onerror = function (evt) {
+				};
+			}
+		}
+	self.setInterval (checkConnection, 1000);
+	}
 function getFeedArray (url, callback) {
 	httpRequest (url, undefined, undefined, function (err, opmltext) {
 		if (err) {

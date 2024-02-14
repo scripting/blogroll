@@ -1,0 +1,36 @@
+body {
+	font-family: Ubuntu;
+	font-size: 18px;
+	background-color: whitesmoke;
+	}
+.divPageBody {
+	width: 60%;
+	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
+	}
+h1 {
+	font-family: Oswald;
+	font-size: 48px;
+	margin-top: .5em;
+	margin-bottom: 1em;
+	letter-spacing: -3px;
+	text-align: center;
+	}
+.divPresentation {
+	display: table;
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+	}
+.ulBlogrollExplainer {
+	display: table-cell;
+	font-size: 15px;
+	line-height: 140%;
+	list-style-type: none;
+	width: 200px;
+	padding-right: 25px;
+	}
+.ulBlogrollExplainer li {
+	margin-bottom: 10px;
+	}
