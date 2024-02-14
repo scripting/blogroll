@@ -1,0 +1,94 @@
+
+.divFeedListContainer {
+	display: table-cell;
+	vertical-align: top;
+	width: 300px;
+	}
+.divMyFeedList {
+	width: 90%;
+	border: 1px solid silver;
+	}
+.trMyFeed {
+	border-top: 1px solid #dddddd;
+	}
+.trMyFeed td {
+	padding-left: 8px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+	}
+.trMyFeed .tdMyFeedTitle {
+	font-size: 15px;
+	color: inherit;
+	cursor: pointer;
+	padding-left: 0;
+	}
+.trMyFeed .tdMyFeedTitle a {
+	color: inherit;
+	cursor: pointer;
+	}
+.trMyFeed .tdMyFeedTitle .spWhenUpdated {
+	float: right;
+	font-size: 12px;
+	padding-right: 4px;
+	}
+.trMyFeed .tdMyFeedTitle .spTitleString {
+	display: inline-block;
+	white-space: nowrap;
+	max-width: 195px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	}
+
+
+.trMyCursor {
+	background-color: white;
+	}
+
+.trMyFeed .tdMyFeedWhenUpdated {
+	font-size: 12px;
+	padding-left: 0;
+	padding-right: 4px;
+	text-align: right;
+	vertical-align: top;
+	white-space: nowrap;
+	}
+.trMyFeed .tdMyWedge {
+	padding-left: 4px;
+	padding-right: 4px;
+	vertical-align: top;
+	width: 12px;
+	}
+
+.divNewsPod {
+	display: none;
+	font-size: 12px;
+	padding-left: 0;
+	padding-right: 2px;
+	}
+.darkCaretColor {
+	opacity: .9;
+	}
+.lightCaretColor {
+	opacity: .2;
+	}
+
+.ulFeedItems {
+	list-style-type: none;
+	margin-left: 0px;
+	margin-top: 10px;
+	margin-bottom: 15px;
+	}
+.liFeedItem {
+	margin-bottom: 5px;
+	line-height: 130%;
+	}
+
+.divNewsPod .spItemPubdate a {
+	color: #0088CC;
+	cursor: pointer;
+	text-decoration: none;
+	margin-left: 5px;
+	}
+.divNewsPod .spItemPubdate a:hover {
+	text-decoration: underline;
+	}
