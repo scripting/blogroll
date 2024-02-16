@@ -105,7 +105,7 @@ function getFeedItemsForWedgeExpand (theFeed, maxItems, callback) {
 
 function viewBlogroll (theList, userOptions) {
 	
-	const cursorClass = "trMyCursor";
+	const cursorClass = "trBlogrollCursor";
 	const rightCaret = "<i class=\"fa fa-caret-right darkCaretColor\"></i>";
 	const downCaret = "<i class=\"fa fa-caret-down lightCaretColor\"></i>";
 	var ixcursor = 0;
@@ -154,6 +154,10 @@ function viewBlogroll (theList, userOptions) {
 			return (true);
 			}
 		}
+	function moveCursorToRow (theRow) { //2/16/24 by DW
+		$("." + cursorClass).removeClass (cursorClass);
+		theRow.addClass (cursorClass);
+		}
 	
 	const theTable = $("<table class=\"divBlogroll\"></table>");
 	const theTableBody = $("<tbody></tbody>");
@@ -184,7 +188,7 @@ function viewBlogroll (theList, userOptions) {
 			});
 		theList.forEach (function (theFeed, ix) {
 			var divNewsPod, tdWedge, spTimeContainer;
-			const theClass = (ix == ixcursor) ? " trMyCursor " : "";
+			const theClass = (ix == ixcursor) ? " trBlogrollCursor " : "";
 			const theRow = $("<tr class=\"trBlogrollFeed" + theClass + "\"></tr>");
 			theRow.attr ("data-feedurl", theFeed.feedUrl);
 			
@@ -219,7 +223,7 @@ function viewBlogroll (theList, userOptions) {
 								const itemtext = getItemText (item);
 								feedItem.append ($("<span>" + itemtext + "</span>"));
 								
-								const spItemPubdate = $("<span class=\"spItemPubdate\"></span>");
+								const spItemPubdate = $("<span class=\"spItemPubdate\"> </span>"); //by adding a space here, we allow it to wrap before the date --2/16/24 by DW
 								const theLink = $("<a href=\"" + item.link + "\" target=\"_blank\" data-pubDate=\"" + item.pubDate + "\">" + getFeedlandTimeString (item.pubDate, false) + "</a>");
 								spItemPubdate.append (theLink);
 								feedItem.append (spItemPubdate);
@@ -255,7 +259,11 @@ function viewBlogroll (theList, userOptions) {
 					}
 				}
 			function getTimeString (when) {
-				return ("<span class=\"spWhenUpdated\">" + getFeedlandTimeString (new Date (when), false) + "</span>");
+				var whenstring = getFeedlandTimeString (new Date (when), false);
+				if (endsWith (whenstring, " mins")) { //this gives us back one char in each line, because this is the longest whenstring -- 2/16/24 by DW
+					whenstring = stringDelete (whenstring, whenstring.length, 1);
+					}
+				return ("<span class=\"spWhenUpdated\">" + whenstring + "</span>");
 				}
 			function setDataThatCanChange () { //2/12/24 by DW
 				
@@ -274,6 +282,7 @@ function viewBlogroll (theList, userOptions) {
 				tdWedge = $("<td class=\"tdBlogrollWedge\">" + rightCaret + "</td>");
 				tdWedge.click (function (ev) {
 					expandToggle ();
+					moveCursorToRow (theRow); //2/16/24 by DW
 					ev.stopPropagation ();
 					});
 				return (tdWedge);
@@ -311,8 +320,7 @@ function viewBlogroll (theList, userOptions) {
 				console.log ("click");
 				const flCursorMoves = !theRow.hasClass (cursorClass);
 				if (flCursorMoves) {
-					$("." + cursorClass).removeClass (cursorClass);
-					theRow.addClass (cursorClass);
+					moveCursorToRow (theRow);
 					}
 				else { //second click
 					expandToggle ();
