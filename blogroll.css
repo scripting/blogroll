@@ -1,38 +1,38 @@
 
-.divFeedListContainer {
+.divBlogrollContainer {
 	display: table-cell;
 	vertical-align: top;
 	width: 220px;
 	margin-right: 10px;
 	}
-.divMyFeedList {
+.divBlogroll {
 	width: 100%;
 	border: 1px solid silver;
 	}
-.trMyFeed {
+.trBlogrollFeed {
 	border-top: 1px solid #dddddd;
 	}
-.trMyFeed td {
+.trBlogrollFeed td {
 	padding-left: 8px;
 	padding-top: 6px;
 	padding-bottom: 6px;
 	}
-.trMyFeed .tdMyFeedTitle {
+.trBlogrollFeed .tdBlogrollFeedTitle {
 	font-size: 15px;
 	color: inherit;
 	cursor: pointer;
 	padding-left: 0;
 	}
-.trMyFeed .tdMyFeedTitle a {
+.trBlogrollFeed .tdBlogrollFeedTitle a {
 	color: inherit;
 	cursor: pointer;
 	}
-.trMyFeed .tdMyFeedTitle .spWhenUpdated {
+.trBlogrollFeed .tdBlogrollFeedTitle .spWhenUpdated {
 	float: right;
 	font-size: 12px;
 	padding-right: 4px;
 	}
-.trMyFeed .tdMyFeedTitle .spTitleString {
+.trBlogrollFeed .tdBlogrollFeedTitle .spTitleString {
 	display: inline-block;
 	white-space: nowrap;
 	max-width: 195px;
@@ -45,7 +45,7 @@
 	background-color: white;
 	}
 
-.trMyFeed .tdMyFeedWhenUpdated {
+.trBlogrollFeed .tdMyFeedWhenUpdated {
 	font-size: 12px;
 	padding-left: 0;
 	padding-right: 4px;
@@ -53,7 +53,7 @@
 	vertical-align: top;
 	white-space: nowrap;
 	}
-.trMyFeed .tdMyWedge {
+.trBlogrollFeed .tdBlogrollWedge {
 	padding-left: 4px;
 	padding-right: 4px;
 	vertical-align: top;
@@ -93,4 +93,31 @@
 	}
 .divNewsPod .spItemPubdate a:hover {
 	text-decoration: underline;
+	}
+
+@media screen and (max-width: 576px) { /* the official number used by bootstrap toolkit */
+	
+	.divBlogrollContainer {
+		width: 220px;
+		}
+	
+	.trBlogrollFeed td {
+		padding-top: 4px;
+		padding-bottom: 4px;
+		}
+	
+	.trBlogrollFeed .tdBlogrollFeedTitle {
+		font-size: 14px;
+		}
+	
+	.trBlogrollFeed .tdBlogrollWedge {
+		width: 12px;
+		padding-left: 4px;
+		padding-right: 0px;
+		}
+	
+	.trBlogrollFeed .tdBlogrollFeedTitle .spTitleString {
+		max-width: 115px;
+		}
+	
 	}

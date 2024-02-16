@@ -155,7 +155,7 @@ function viewBlogroll (theList, userOptions) {
 			}
 		}
 	
-	const theTable = $("<table class=\"divMyFeedlist\"></table>");
+	const theTable = $("<table class=\"divBlogroll\"></table>");
 	const theTableBody = $("<tbody></tbody>");
 	theTable.append (theTableBody);
 	
@@ -185,7 +185,7 @@ function viewBlogroll (theList, userOptions) {
 		theList.forEach (function (theFeed, ix) {
 			var divNewsPod, tdWedge, spTimeContainer;
 			const theClass = (ix == ixcursor) ? " trMyCursor " : "";
-			const theRow = $("<tr class=\"trMyFeed" + theClass + "\"></tr>");
+			const theRow = $("<tr class=\"trBlogrollFeed" + theClass + "\"></tr>");
 			theRow.attr ("data-feedurl", theFeed.feedUrl);
 			
 			function expandToggle () {
@@ -271,7 +271,7 @@ function viewBlogroll (theList, userOptions) {
 				
 				}
 			function getWedge () {
-				tdWedge = $("<td class=\"tdMyWedge\">" + rightCaret + "</td>");
+				tdWedge = $("<td class=\"tdBlogrollWedge\">" + rightCaret + "</td>");
 				tdWedge.click (function (ev) {
 					expandToggle ();
 					ev.stopPropagation ();
@@ -279,7 +279,7 @@ function viewBlogroll (theList, userOptions) {
 				return (tdWedge);
 				}
 			function getFeedTitle () {
-				const td = $("<td class=\"tdMyFeedTitle\"></td>");
+				const td = $("<td class=\"tdBlogrollFeedTitle\"></td>");
 				
 				spTimeContainer = $("<span class=\"spTimeContainer\">" + getTimeString (theFeed.whenUpdated) + "</span>");
 				td.append (spTimeContainer);
@@ -398,7 +398,7 @@ function viewBlogroll (theList, userOptions) {
 		});
 	
 	runEveryMinute (function () {
-		$(".divMyFeedList tr").trigger ("dataChanged");
+		$(".divBlogroll tr").trigger ("dataChanged");
 		});
 	}
 
@@ -408,7 +408,7 @@ function startBlogroll (userOptions) {
 	const whenstart = new Date ();
 	
 	var options = {
-		whereToAppend: $(".divFeedListContainer")
+		whereToAppend: $(".divBlogrollContainer")
 		};
 	if (userOptions !== undefined) {
 		for (x in userOptions) {
@@ -469,6 +469,6 @@ function testFeedUpdated () {
 	const params = {
 		theFeed
 		};
-	$(".divMyFeedlist").trigger ("feedUpdated", [params]);
+	$(".divBlogroll").trigger ("feedUpdated", [params]);
 	}
 

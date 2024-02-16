@@ -13,7 +13,7 @@ h1 {
 	font-family: Oswald;
 	font-size: 48px;
 	margin-top: .5em;
-	margin-bottom: 1em;
+	margin-bottom: .6em;
 	letter-spacing: -3px;
 	text-align: center;
 	}
@@ -34,3 +34,37 @@ h1 {
 .ulBlogrollExplainer li {
 	margin-bottom: 10px;
 	}
+
+.ulExplainerText {
+	list-style-type: disc;
+	margin-left: 13px;
+	margin-top: 10px;
+	}
+
+
+@media screen and (max-width: 576px) { /* the official number used by bootstrap toolkit */
+	
+	.divPageBody {
+		width: 90%;
+		margin-top: 10px;
+		margin-left: auto;
+		margin-right: auto;
+		}
+	
+	h1 {
+		font-size: 40px;
+		}
+	
+	.divPresentation {
+		width: 100%;
+		}
+	.ulBlogrollExplainer {
+		font-size: 14px;
+		padding-right: 15px;
+		}
+	
+	
+	}
+
+
+
