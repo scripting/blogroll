@@ -2,7 +2,7 @@
 .divFeedListContainer {
 	display: table-cell;
 	vertical-align: top;
-	width: 240px;
+	width: 220px;
 	margin-right: 10px;
 	}
 .divMyFeedList {
@@ -89,6 +89,7 @@
 	cursor: pointer;
 	text-decoration: none;
 	margin-left: 5px;
+	white-space: nowrap;
 	}
 .divNewsPod .spItemPubdate a:hover {
 	text-decoration: underline;

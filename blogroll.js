@@ -8,6 +8,9 @@ var globals = {
 const urlFeedListOpml = "http://scripting.com/publicfolder/feedland/subscriptionLists/wordSocialStarters.opml"; //includes doc, zeldman, manton, me and wp-special-projects -- 2/10/24 by DW
 
 
+function nowstring () {
+	return (new Date ().toLocaleTimeString ());
+	}
 
 function openFeedlandSocket (userOptions) { //2/11/24 by DW
 	var options = {
@@ -420,8 +423,6 @@ function startBlogroll (userOptions) {
 			console.log ("startBlogroll: err.message == " + err.message);
 			}
 		else {
-			console.log ("startBlogroll: " + secondsSince (whenstart) + " secs to get data from the server.");
-			
 			globals.theFeedList = theList;
 			
 			var feedlandOptions = {

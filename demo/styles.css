@@ -19,7 +19,7 @@ h1 {
 	}
 .divPresentation {
 	display: table;
-	width: 700px;
+	width: 550px;
 	margin-left: auto;
 	margin-right: auto;
 	}
@@ -28,7 +28,7 @@ h1 {
 	font-size: 15px;
 	line-height: 140%;
 	list-style-type: none;
-	width: 200px;
+	width: 230px;
 	padding-right: 25px;
 	}
 .ulBlogrollExplainer li {
