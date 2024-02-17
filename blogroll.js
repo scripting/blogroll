@@ -1,3 +1,9 @@
+
+function myAddToolTip (theObject, tipText, placement) {
+	addToolTip (theObject, tipText, placement);
+	theObject.tooltip ();
+	}
+
 function testFeedUpdated () {
 	const now = new Date ();
 	const theFeed = {
@@ -41,7 +47,10 @@ function blogroll (userOptions) {
 		flReverseSort: false,
 		maxCharsItemText: 200,
 		flEllipsesAfterText: false,
-		urlFeedListOpml: "http://scripting.com/publicfolder/feedland/subscriptionLists/wordSocialStarters.opml" //includes doc, zeldman, manton, me and wp-special-projects -- 2/10/24 by DW
+		ixcursor: 0,
+		urlFeedListOpml: undefined,
+		cursorMovedCallback: function (ixcursor) {
+			}
 		};
 	if (userOptions !== undefined) {
 		for (x in userOptions) {
@@ -131,8 +140,6 @@ function blogroll (userOptions) {
 		const cursorClass = "trBlogrollCursor";
 		const rightCaret = "<i class=\"fa fa-caret-right darkCaretColor\"></i>";
 		const downCaret = "<i class=\"fa fa-caret-down lightCaretColor\"></i>";
-		var ixcursor = 0;
-		
 		
 		function getCursorRow () {
 			const cursorRow = $("." + cursorClass);
@@ -148,6 +155,7 @@ function blogroll (userOptions) {
 			else {
 				cursorRow.removeClass (cursorClass);
 				newCursorRow.addClass (cursorClass);
+				options.cursorMovedCallback (newCursorRow.index ());
 				return (true);
 				}
 			}
@@ -161,12 +169,14 @@ function blogroll (userOptions) {
 			else {
 				cursorRow.removeClass (cursorClass);
 				newCursorRow.addClass (cursorClass);
+				options.cursorMovedCallback (newCursorRow.index ());
 				return (true);
 				}
 			}
 		function moveCursorToRow (theRow) { //2/16/24 by DW
 			$("." + cursorClass).removeClass (cursorClass);
 			theRow.addClass (cursorClass);
+			options.cursorMovedCallback (theRow.index ());
 			}
 		
 		const theTable = $("<table class=\"divBlogroll\"></table>");
@@ -198,7 +208,7 @@ function blogroll (userOptions) {
 				});
 			theList.forEach (function (theFeed, ix) {
 				var divNewsPod, tdWedge, spTimeContainer;
-				const theClass = (ix == ixcursor) ? " trBlogrollCursor " : "";
+				const theClass = (ix == options.ixcursor) ? " trBlogrollCursor " : "";
 				const theRow = $("<tr class=\"trBlogrollFeed" + theClass + "\"></tr>");
 				theRow.attr ("data-feedurl", theFeed.feedUrl);
 				
@@ -238,7 +248,7 @@ function blogroll (userOptions) {
 									spItemPubdate.append (theLink);
 									feedItem.append (spItemPubdate);
 									
-									addToolTip (spItemPubdate, itemtext, "top");
+									myAddToolTip (spItemPubdate, itemtext, "top");
 									
 									
 									feedItem.click (function (ev) {
@@ -303,16 +313,14 @@ function blogroll (userOptions) {
 					spTimeContainer = $("<span class=\"spTimeContainer\">" + getTimeString (theFeed.whenUpdated) + "</span>");
 					td.append (spTimeContainer);
 					
-					
-					
-					
-					
 					var titleString = trimWhitespace (maxStringLength (theFeed.title, options.maxTitleLength, false, true));
 					if (titleString.length == 0) {
 						titleString = "[empty]";
 						}
 					
-					td.append ($("<span class=\"spTitleString\">" + titleString + "</span>"));
+					const spTitleString = $("<span class=\"spTitleString\">" + titleString + "</span>");
+					td.append (spTitleString);
+					myAddToolTip (spTitleString, theFeed.description);
 					
 					divNewsPod = $("<div class=\"divNewsPod\"></div>");
 					td.append (divNewsPod);
@@ -327,10 +335,10 @@ function blogroll (userOptions) {
 				theRow.append (getWedge ());
 				theRow.append (getFeedTitle ());
 				theRow.click (function (ev) {
-					console.log ("click");
 					const flCursorMoves = !theRow.hasClass (cursorClass);
 					if (flCursorMoves) {
 						moveCursorToRow (theRow);
+						console.log (theFeed);
 						}
 					else { //second click
 						expandToggle ();
@@ -425,14 +433,19 @@ function blogroll (userOptions) {
 			});
 		}
 	
-	getTheFeedList (options.urlFeedListOpml, function (err, theList) {
-		if (err) {
-			console.log ("startBlogroll: err.message == " + err.message);
-			}
-		else {
-			const whenstartbuild = new Date ();
-			viewBlogroll (theList);
-			console.log ("blogroll: " + secondsSince (whenstartbuild) + " secs to build the viewer.");
-			}
-		});
+	if (options.urlFeedListOpml === undefined) {
+		console.log ("Can't display the blogroll because options.urlFeedListOpml was not specified.");
+		}
+	else {
+		getTheFeedList (options.urlFeedListOpml, function (err, theList) {
+			if (err) {
+				console.log ("startBlogroll: err.message == " + err.message);
+				}
+			else {
+				const whenstartbuild = new Date ();
+				viewBlogroll (theList);
+				console.log ("blogroll: " + secondsSince (whenstartbuild) + " secs to build the viewer.");
+				}
+			});
+		}
 	}

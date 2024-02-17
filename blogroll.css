@@ -38,13 +38,14 @@
 	max-width: 160px;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	opacity: 0.8;
 	}
 
 .trBlogrollCursor {
 	background-color: white;
 	}
-.trBlogrollCursor .tdBlogrollFeedTitle {
-	font-weight: bold;
+.trBlogrollCursor .tdBlogrollFeedTitle .spTitleString {
+	opacity: 1.0;
 	}
 
 .trBlogrollFeed .tdMyFeedWhenUpdated {
