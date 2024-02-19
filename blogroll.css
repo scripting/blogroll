@@ -93,6 +93,23 @@
 	width: 12px;
 	}
 
+.divBlogrollSortLinks {
+	font-size: 12px;
+	line-height: 14px;
+	}
+.divBlogrollSortLinks .spTitleLink {
+	margin-left: 16px;
+	cursor: pointer;
+	}
+.divBlogrollSortLinks .spWhenLink {
+	float: right;
+	padding-right: 2px;
+	cursor: pointer;
+	}
+.divBlogrollSortLinks .selected {
+	font-weight: bold;
+	}
+
 .divNewsPod {
 	display: none;
 	font-size: 12px;

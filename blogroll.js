@@ -1,43 +1,4 @@
 
-function myAddToolTip (theObject, tipText, placement) {
-	const flActivateNow = true;
-	addToolTip (theObject, tipText, placement, flActivateNow);
-	}
-
-function testFeedUpdated () {
-	const now = new Date ();
-	const theFeed = {
-		"feedUrl": "http://scripting.com/rss.xml",
-		"title": "Scripting News",
-		"htmlUrl": "http://scripting.com/",
-		"description": "It's even worse than it appears..",
-		"whenCreated": "2023-07-17T15:51:04.000Z",
-		"whenUpdated": now,
-		"whoFirstSubscribed": "dave",
-		"ctItems": 917,
-		"ctSubs": 122,
-		"ctSecs": 0.27,
-		"ctErrors": 0,
-		"ctConsecutiveErrors": 0,
-		"errorString": "",
-		"whenChecked": "2024-02-12T12:17:19.000Z",
-		"ctChecks": 2840,
-		"whenLastError": "1970-01-01T00:00:00.000Z",
-		"urlCloudServer": "http://rpc.rsscloud.io:5337/pleaseNotify",
-		"whenLastCloudRenew": "2024-02-11T15:49:51.000Z",
-		"ctCloudRenews": 223,
-		"copyright": "&copy; copyright 1994-2023 Dave Winer.",
-		"generator": "oldSchool v0.8.8",
-		"language": "en-us",
-		"twitterAccount": "davewiner",
-		"pubDate": "2024-02-12T02:51:25.000Z"
-		}
-	const params = {
-		theFeed
-		};
-	$(".divBlogroll").trigger ("feedUpdated", [params]);
-	}
-
 function blogroll (userOptions) {
 	console.log ("blogroll");
 	var options = {
@@ -52,7 +13,10 @@ function blogroll (userOptions) {
 		ixcursor: 0,
 		urlFeedListOpml: undefined,
 		maxDaysInBlogroll: Infinity,
+		flSortLinks: true, //2/19/24 by DW
 		cursorMovedCallback: function (ixcursor) {
+			},
+		sortOptionsChangedCallback: function (sortBy, flReverseSort) {
 			},
 		blogrollDisplayedCallback: function () {
 			}
@@ -206,6 +170,47 @@ function blogroll (userOptions) {
 				divBlogrollTitle.append (spRightTitleArrow);
 				
 				options.whereToAppend.append (divBlogrollTitle);
+				}
+			}
+		function appendSortLinksAboveTable () { //2/19/24 by DW
+			if (options.flSortLinks) {
+				const divBlogrollSortLinks = $("<div class=\"divBlogrollSortLinks\"></div>");
+				const spTitleLink = $("<span class=\"spTitleLink\">Title</span>");
+				const spWhenLink = $("<span class=\"spWhenLink\">When</span>");
+				divBlogrollSortLinks.append (spTitleLink);
+				divBlogrollSortLinks.append (spWhenLink);
+				setSelectedLink ();
+				options.whereToAppend.append (divBlogrollSortLinks);
+				
+				function setSelectedLink () {
+					if (options.sortBy == "title") {
+						spTitleLink.addClass ("selected");
+						spWhenLink.removeClass ("selected");
+						}
+					else {
+						spWhenLink.addClass ("selected");
+						spTitleLink.removeClass ("selected");
+						}
+					}
+				function handleClick (sortByValue) {
+					if (options.sortBy == sortByValue) {
+						options.flReverseSort = !options.flReverseSort;
+						}
+					else {
+						options.sortBy = sortByValue;
+						options.flReverseSort = false;
+						}
+					setSelectedLink ();
+					buildTheTable ();
+					options.sortOptionsChangedCallback (options.sortBy, options.flReverseSort);
+					}
+				
+				spTitleLink.click (function () {
+					handleClick ("title");
+					});
+				spWhenLink.click (function () {
+					handleClick ("whenUpdated");
+					});
 				}
 			}
 		function buildTheTable () {
@@ -415,9 +420,9 @@ function blogroll (userOptions) {
 						});
 					}
 				});
-			console.log ("buildTheTable: " + secondsSince (whenstart) + " secs");
 			}
 		
+		appendSortLinksAboveTable (); //2/19/24 by DW
 		appendTitleAboveTable (); //2/17/24 by DW
 		buildTheTable ();
 		options.whereToAppend.append (theTable);
@@ -510,4 +515,38 @@ function blogroll (userOptions) {
 		copyUserOptions (userOptions);
 		theTable.trigger ("buildBlogroll");
 		};
+	}
+
+function testFeedUpdated () {
+	const now = new Date ();
+	const theFeed = {
+		"feedUrl": "http://scripting.com/rss.xml",
+		"title": "Scripting News",
+		"htmlUrl": "http://scripting.com/",
+		"description": "It's even worse than it appears..",
+		"whenCreated": "2023-07-17T15:51:04.000Z",
+		"whenUpdated": now,
+		"whoFirstSubscribed": "dave",
+		"ctItems": 917,
+		"ctSubs": 122,
+		"ctSecs": 0.27,
+		"ctErrors": 0,
+		"ctConsecutiveErrors": 0,
+		"errorString": "",
+		"whenChecked": "2024-02-12T12:17:19.000Z",
+		"ctChecks": 2840,
+		"whenLastError": "1970-01-01T00:00:00.000Z",
+		"urlCloudServer": "http://rpc.rsscloud.io:5337/pleaseNotify",
+		"whenLastCloudRenew": "2024-02-11T15:49:51.000Z",
+		"ctCloudRenews": 223,
+		"copyright": "&copy; copyright 1994-2023 Dave Winer.",
+		"generator": "oldSchool v0.8.8",
+		"language": "en-us",
+		"twitterAccount": "davewiner",
+		"pubDate": "2024-02-12T02:51:25.000Z"
+		}
+	const params = {
+		theFeed
+		};
+	$(".divBlogroll").trigger ("feedUpdated", [params]);
 	}

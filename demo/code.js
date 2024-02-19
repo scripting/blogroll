@@ -85,11 +85,19 @@ function startup () {
 	theBlogroll = new blogroll ({
 		whereToAppend: $(".divBlogrollContainer"),
 		ixcursor: blogrollMemory.ixcursor,
+		sortBy: blogrollMemory.sortBy,
+		flReverseSort: blogrollMemory.flReverseSort,
 		urlFeedListOpml: appConsts.urlFeedListOpml,
 		maxDaysInBlogroll: 60,
 		cursorMovedCallback: function (ixcursor) {
 			console.log ("cursorMovedCallback: ixcursor == " + ixcursor);
 			blogrollMemory.ixcursor = ixcursor;
+			saveBlogrollMemory ();
+			},
+		sortOptionsChangedCallback: function (sortBy, flReverseSort) {
+			console.log ("sortOptionsChangedCallback: sortBy == " + sortBy + ", flReverseSort == " + flReverseSort);
+			blogrollMemory.sortBy = sortBy;
+			blogrollMemory.flReverseSort = flReverseSort;
 			saveBlogrollMemory ();
 			},
 		blogrollDisplayedCallback: function () {
