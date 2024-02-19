@@ -9,7 +9,6 @@ const appConsts = {
 	flBlogrollUpdates: true,
 	};
 
-
 var blogrollMemory = {
 	ixcursor: 0
 	}
@@ -36,10 +35,14 @@ function startup () {
 		whereToAppend: $(".divBlogrollContainer"),
 		ixcursor: blogrollMemory.ixcursor,
 		urlFeedListOpml: appConsts.urlFeedListOpml,
+		maxDaysInBlogroll: 60,
 		cursorMovedCallback: function (ixcursor) {
 			console.log ("cursorMovedCallback: ixcursor == " + ixcursor);
 			blogrollMemory.ixcursor = ixcursor;
 			saveBlogrollMemory ();
+			},
+		blogrollDisplayedCallback: function () {
+			console.log ("blogrollDisplayedCallback");
 			}
 		});
 	

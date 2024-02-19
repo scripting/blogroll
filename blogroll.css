@@ -8,6 +8,36 @@
 	width: 100%;
 	border: 1px solid silver;
 	}
+
+.divBlogrollTitle {
+	display: table;
+	width: 100%;
+	font-size: 16px;
+	font-weight: bold;
+	border-top: 1px solid #dddddd;
+	border-left: 1px solid #dddddd;
+	border-right: 1px solid #dddddd;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	}
+.spTitleArrow {
+	display: table-cell;
+	}
+.spTitleText {
+	display: table-cell;
+	text-align: center;
+	}
+.spTitleArrowLeft {
+	display: table-cell;
+	display: none;
+	padding-left: 10px;
+	}
+.spTitleArrowRight {
+	display: table-cell;
+	display: none;
+	padding-right: 10px;
+	}
+
 .trBlogrollFeed {
 	border-top: 1px solid #dddddd;
 	}
