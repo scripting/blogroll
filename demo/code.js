@@ -1,4 +1,6 @@
 const appConsts = {
+	productnameForDisplay: "blogroll.social",
+	
 	urlFeedlandServer: "https://feedland.com/",
 	
 	urlSocketServer: "wss://feedland.com:443/_ws/",
@@ -10,8 +12,12 @@ const appConsts = {
 	};
 
 var blogrollMemory = {
-	ixcursor: 0
+	ixcursor: 0,
+	sortBy: "whenUpdated",
+	flReverseSort: true
 	}
+
+var theBlogroll;
 
 function saveBlogrollMemory () {
 	localStorage.blogrollMemory = jsonStringify (blogrollMemory);
@@ -21,17 +27,62 @@ function everySecond () {
 	}
 function startup () {
 	console.log ("startup");
-	hitCounter ();
+	
+	function startButtons () {
+		function getSortbyButtonText () {
+			return ((blogrollMemory.sortBy == "title") ? "Title" : "When");
+			}
+		function doRebuild () {
+			theBlogroll.buildBlogroll ({sortBy: blogrollMemory.sortBy, flReverseSort: blogrollMemory.flReverseSort});
+			}
+		const divButtons = $(".divButtons");
+		const sortbyButton = $("<a href=\"#\" class=\"btn btnSortby\">" + getSortbyButtonText () + "</a>");
+		divButtons.append (sortbyButton);
+		
+		sortbyButton.click (function () {
+			console.log ("sortbyButton.click");
+			switch (blogrollMemory.sortBy) {
+				case "title":
+					blogrollMemory.sortBy = "whenUpdated";
+					break;
+				case "whenUpdated":
+					blogrollMemory.sortBy = "title";
+					break;
+				}
+			sortbyButton.text (getSortbyButtonText ());
+			saveBlogrollMemory ();
+			doRebuild ();
+			});
+		
+		function getSortorderButtonText () {
+			return ((blogrollMemory.flReverseSort) ? "Reverse" : "Normal");
+			}
+		const sortorderButton = $("<a href=\"#\" class=\"btn btnSortOrder\">" + getSortorderButtonText () + "</a>");
+		sortorderButton.click (function () {
+			console.log ("sortorderButton.click");
+			blogrollMemory.flReverseSort = !blogrollMemory.flReverseSort;
+			sortorderButton.text (getSortorderButtonText ());
+			saveBlogrollMemory ();
+			doRebuild ();
+			});
+		divButtons.append (sortorderButton);
+		}
+	
 	
 	if (localStorage.blogrollMemory !== undefined) {
 		try {
-			blogrollMemory = JSON.parse (localStorage.blogrollMemory);
+			var jstruct = JSON.parse (localStorage.blogrollMemory);
+			for (var x in jstruct) {
+				if (jstruct [x] !== undefined) {
+					blogrollMemory [x] = jstruct [x];
+					}
+				}
 			}
 		catch (err) {
 			}
 		}
 	
-	const theBlogroll = new blogroll ({
+	theBlogroll = new blogroll ({
 		whereToAppend: $(".divBlogrollContainer"),
 		ixcursor: blogrollMemory.ixcursor,
 		urlFeedListOpml: appConsts.urlFeedListOpml,
@@ -45,6 +96,10 @@ function startup () {
 			console.log ("blogrollDisplayedCallback");
 			}
 		});
+	
+	startButtons ();
+	
+	
 	
 	self.setInterval (everySecond, 1000); 
 	}

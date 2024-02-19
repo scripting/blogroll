@@ -1,7 +1,7 @@
 
 function myAddToolTip (theObject, tipText, placement) {
-	addToolTip (theObject, tipText, placement);
-	theObject.tooltip ();
+	const flActivateNow = true;
+	addToolTip (theObject, tipText, placement, flActivateNow);
 	}
 
 function testFeedUpdated () {
@@ -39,10 +39,10 @@ function testFeedUpdated () {
 	}
 
 function blogroll (userOptions) {
-	console.log ("startBlogroll");
+	console.log ("blogroll");
 	var options = {
 		whereToAppend: $(".divBlogrollContainer"),
-		title: "blogroll.social",
+		title: appConsts.productnameForDisplay,
 		flDisplayTitle: false,
 		maxTitleLength: 25,
 		sortBy: "whenUpdated",
@@ -57,13 +57,16 @@ function blogroll (userOptions) {
 		blogrollDisplayedCallback: function () {
 			}
 		};
-	if (userOptions !== undefined) {
-		for (x in userOptions) {
-			if (userOptions [x] !== undefined) {
-				options [x] = userOptions [x];
+	function copyUserOptions (userOptions) {
+		if (userOptions !== undefined) {
+			for (x in userOptions) {
+				if (userOptions [x] !== undefined) {
+					options [x] = userOptions [x];
+					}
 				}
 			}
 		}
+	copyUserOptions (userOptions);
 	
 	var theTable = undefined;
 	const whenstart = new Date ();
@@ -298,7 +301,7 @@ function blogroll (userOptions) {
 										spItemPubdate.append (theLink);
 										feedItem.append (spItemPubdate);
 										
-										myAddToolTip (spItemPubdate, itemtext, "top");
+										addToolTip (spItemPubdate, itemtext, "top");
 										
 										
 										feedItem.click (function (ev) {
@@ -370,7 +373,7 @@ function blogroll (userOptions) {
 						
 						const spTitleString = $("<span class=\"spTitleString\">" + titleString + "</span>");
 						td.append (spTitleString);
-						myAddToolTip (spTitleString, theFeed.description);
+						addToolTip (spTitleString, theFeed.description);
 						
 						divNewsPod = $("<div class=\"divNewsPod\"></div>");
 						td.append (divNewsPod);
@@ -418,6 +421,7 @@ function blogroll (userOptions) {
 		appendTitleAboveTable (); //2/17/24 by DW
 		buildTheTable ();
 		options.whereToAppend.append (theTable);
+		activateToolTips (); //2/19/24 by DW
 		
 		function handleFeedUpdated (theFeed) {
 			var flfound = false, ixmatch = undefined, theMatchedFeed = undefined;
@@ -437,6 +441,7 @@ function blogroll (userOptions) {
 					theMatchedFeed.whenUpdated = theFeed.whenUpdated;
 					
 					buildTheTable ();
+					activateToolTips (); //2/19/24 by DW
 					
 					}
 				}
@@ -445,8 +450,9 @@ function blogroll (userOptions) {
 		theTable.on ("feedUpdated", function (ev, params) { //2/12/24 by DW
 			handleFeedUpdated (params.theFeed);
 			});
-		theTable.on ("buildBlogroll", function (ev, params) { //2/12/24 by DW
+		theTable.on ("buildBlogroll", function () { //2/19/24 by DW
 			buildTheTable ();
+			activateToolTips (); 
 			});
 		
 		const socketOptions = {
@@ -494,11 +500,14 @@ function blogroll (userOptions) {
 				const whenstartbuild = new Date ();
 				viewBlogroll (theList);
 				console.log ("blogroll: " + secondsSince (whenstartbuild) + " secs to build the viewer.");
-				this.buildBlogroll = function () {
-					theTable.trigger ("buildBlogroll");
-					};
 				options.blogrollDisplayedCallback ();
 				}
 			});
 		}
+	
+	this.buildBlogroll = function (userOptions) {
+		console.log ("buildBlogroll: userOptions == " + jsonStringify (userOptions));
+		copyUserOptions (userOptions);
+		theTable.trigger ("buildBlogroll");
+		};
 	}

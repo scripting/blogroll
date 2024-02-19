@@ -33,12 +33,17 @@ h1 {
 .ulBlogrollExplainer li {
 	margin-bottom: 10px;
 	}
+.ulBlogrollExplainer .btn {
+	width: 65px;
+	margin-right: 10px;
+	}
 
 .ulExplainerText {
 	list-style-type: disc;
 	margin-left: 13px;
 	margin-top: 10px;
 	}
+
 
 
 @media screen and (max-width: 576px) { /* the official number used by bootstrap toolkit */
@@ -61,9 +66,11 @@ h1 {
 		font-size: 14px;
 		padding-right: 15px;
 		}
-	
-	
 	}
 
-
+@media screen and (max-width: 1024px) { /* tablets */
+	.divPageBody {
+		width: 70%;
+		}
+	}
 
