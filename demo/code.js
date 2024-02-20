@@ -28,45 +28,6 @@ function everySecond () {
 function startup () {
 	console.log ("startup");
 	
-	function startButtons () {
-		function getSortbyButtonText () {
-			return ((blogrollMemory.sortBy == "title") ? "Title" : "When");
-			}
-		function doRebuild () {
-			theBlogroll.buildBlogroll ({sortBy: blogrollMemory.sortBy, flReverseSort: blogrollMemory.flReverseSort});
-			}
-		const divButtons = $(".divButtons");
-		const sortbyButton = $("<a href=\"#\" class=\"btn btnSortby\">" + getSortbyButtonText () + "</a>");
-		divButtons.append (sortbyButton);
-		
-		sortbyButton.click (function () {
-			console.log ("sortbyButton.click");
-			switch (blogrollMemory.sortBy) {
-				case "title":
-					blogrollMemory.sortBy = "whenUpdated";
-					break;
-				case "whenUpdated":
-					blogrollMemory.sortBy = "title";
-					break;
-				}
-			sortbyButton.text (getSortbyButtonText ());
-			saveBlogrollMemory ();
-			doRebuild ();
-			});
-		
-		function getSortorderButtonText () {
-			return ((blogrollMemory.flReverseSort) ? "Reverse" : "Normal");
-			}
-		const sortorderButton = $("<a href=\"#\" class=\"btn btnSortOrder\">" + getSortorderButtonText () + "</a>");
-		sortorderButton.click (function () {
-			console.log ("sortorderButton.click");
-			blogrollMemory.flReverseSort = !blogrollMemory.flReverseSort;
-			sortorderButton.text (getSortorderButtonText ());
-			saveBlogrollMemory ();
-			doRebuild ();
-			});
-		divButtons.append (sortorderButton);
-		}
 	
 	
 	if (localStorage.blogrollMemory !== undefined) {
@@ -105,7 +66,6 @@ function startup () {
 			}
 		});
 	
-	startButtons ();
 	
 	
 	

@@ -145,9 +145,8 @@
 	}
 
 @media screen and (max-width: 576px) { /* the official number used by bootstrap toolkit */
-	
 	.divBlogrollContainer {
-		width: 220px;
+		width: 190px;
 		}
 	
 	.trBlogrollFeed td {

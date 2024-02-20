@@ -29,6 +29,7 @@ h1 {
 	line-height: 140%;
 	list-style-type: none;
 	padding-right: 25px;
+	padding-top: 12px; /* offset for the sort links in the blogroll */
 	}
 .ulBlogrollExplainer li {
 	margin-bottom: 10px;
@@ -45,32 +46,27 @@ h1 {
 	}
 
 
-
-@media screen and (max-width: 576px) { /* the official number used by bootstrap toolkit */
-	
+@media screen and (max-width: 1024px) { /* tablets */
 	.divPageBody {
-		width: 90%;
+		width: 70%;
+		}
+	}
+@media screen and (max-width: 576px) { /* the official number used by bootstrap toolkit */
+	.divPageBody {
+		width: 96%;
 		margin-top: 10px;
 		margin-left: auto;
 		margin-right: auto;
 		}
-	
 	h1 {
 		font-size: 40px;
 		}
-	
 	.divPresentation {
 		width: 100%;
 		}
 	.ulBlogrollExplainer {
 		font-size: 14px;
-		padding-right: 15px;
-		}
-	}
-
-@media screen and (max-width: 1024px) { /* tablets */
-	.divPageBody {
-		width: 70%;
+		padding-right: 10px;
 		}
 	}
 
