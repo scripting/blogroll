@@ -26,7 +26,7 @@ In the <head> section of your HMTL page, include the following files.
 
 <i>two files here, one for CSS and one for JS code</i>
 
-### Add blogroll to your HTML
+### Add the blogroll to your HTML
 
 In the <body> section of your HTML page, add a div with class `divBlogrollContainer`.
 
@@ -36,17 +36,13 @@ In the <body> section of your HTML page, add a div with class `divBlogrollContai
 
 ```
 
-### Add code that runs at startup
+### Code that runs at startup
 
 Where your startup code runs, create your blogroll. 
 
 ```javascript
 
-const theBlogroll = new blogroll ({
-
-urlFeedListOpml: "http://myblog.org/blogroll.opml"
-
-});
+const theBlogroll = new blogroll ({urlFeedListOpml: "http://myblog.org/blogroll.opml"});
 
 ```
 
