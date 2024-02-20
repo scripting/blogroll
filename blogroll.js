@@ -1,4 +1,3 @@
-
 function blogroll (userOptions) {
 	console.log ("blogroll");
 	var options = {
@@ -515,38 +514,4 @@ function blogroll (userOptions) {
 		copyUserOptions (userOptions);
 		theTable.trigger ("buildBlogroll");
 		};
-	}
-
-function testFeedUpdated () {
-	const now = new Date ();
-	const theFeed = {
-		"feedUrl": "http://scripting.com/rss.xml",
-		"title": "Scripting News",
-		"htmlUrl": "http://scripting.com/",
-		"description": "It's even worse than it appears..",
-		"whenCreated": "2023-07-17T15:51:04.000Z",
-		"whenUpdated": now,
-		"whoFirstSubscribed": "dave",
-		"ctItems": 917,
-		"ctSubs": 122,
-		"ctSecs": 0.27,
-		"ctErrors": 0,
-		"ctConsecutiveErrors": 0,
-		"errorString": "",
-		"whenChecked": "2024-02-12T12:17:19.000Z",
-		"ctChecks": 2840,
-		"whenLastError": "1970-01-01T00:00:00.000Z",
-		"urlCloudServer": "http://rpc.rsscloud.io:5337/pleaseNotify",
-		"whenLastCloudRenew": "2024-02-11T15:49:51.000Z",
-		"ctCloudRenews": 223,
-		"copyright": "&copy; copyright 1994-2023 Dave Winer.",
-		"generator": "oldSchool v0.8.8",
-		"language": "en-us",
-		"twitterAccount": "davewiner",
-		"pubDate": "2024-02-12T02:51:25.000Z"
-		}
-	const params = {
-		theFeed
-		};
-	$(".divBlogroll").trigger ("feedUpdated", [params]);
 	}
