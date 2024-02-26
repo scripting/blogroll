@@ -1,11 +1,11 @@
 const appConsts = {
 	productnameForDisplay: "blogroll.social",
 	
-	urlFeedlandServer: "https://feedland.com/",
+	urlFeedlandServer: "https://feedland.social/",
 	
-	urlSocketServer: "wss://feedland.com:443/_ws/",
+	urlSocketServer: "wss://feedland.social/",
 	
-	urlFeedListOpml: "http://scripting.com/publicfolder/feedland/subscriptionLists/wordSocialStarters.opml", //includes doc, zeldman, manton, me and wp-special-projects -- 2/10/24 by DW
+	urlFeedListOpml: "http://scripting.com/code/blogroll/starterfeeds.opml", 
 	
 	flShowSocketMessages: true,
 	flBlogrollUpdates: true,
@@ -44,6 +44,7 @@ function startup () {
 		}
 	
 	theBlogroll = new blogroll ({
+		urlSocketServer: appConsts.urlSocketServer,
 		whereToAppend: $(".divBlogrollContainer"),
 		ixcursor: blogrollMemory.ixcursor,
 		sortBy: blogrollMemory.sortBy,
@@ -51,7 +52,6 @@ function startup () {
 		urlFeedListOpml: appConsts.urlFeedListOpml,
 		maxDaysInBlogroll: 60,
 		cursorMovedCallback: function (ixcursor) {
-			console.log ("cursorMovedCallback: ixcursor == " + ixcursor);
 			blogrollMemory.ixcursor = ixcursor;
 			saveBlogrollMemory ();
 			},

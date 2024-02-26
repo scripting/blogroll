@@ -4,7 +4,7 @@ body {
 	background-color: whitesmoke;
 	}
 .divPageBody {
-	width: 35%;
+	width: 40%;
 	margin-top: 50px;
 	margin-left: auto;
 	margin-right: auto;
@@ -41,7 +41,6 @@ h1 {
 
 .ulExplainerText {
 	list-style-type: disc;
-	margin-left: 13px;
 	margin-top: 10px;
 	}
 

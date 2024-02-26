@@ -36,7 +36,13 @@ In the <body> section of your HTML page, add a div with class `divBlogrollContai
 
 ```
 
-### Code that runs at startup
+### In your JavaScript code
+
+Add a global called appConsts, that has the following values in it. 
+
+xxx
+
+(maybe make this unnecessary?)
 
 Where your startup code runs, create your blogroll. 
 
@@ -45,6 +51,8 @@ Where your startup code runs, create your blogroll.
 const theBlogroll = new blogroll ({urlFeedListOpml: "http://myblog.org/blogroll.opml"});
 
 ```
+
+You don't have to save a pointer to the object <i>blogroll</i> returns, you only need it if you plan to call into the blogroll, to change something or get data out of it. 
 
 ### Options
 
@@ -80,7 +88,9 @@ Here's a list of the options you can add to the object you pass into the blogrol
 
 * blogrollDisplayedCallback: a function, called after the blogroll has finished initializing, useful if you have code you want to run at that time.
 
+Most of these options are used in the <a href="https://github.com/scripting/blogroll/tree/master/demo">demo app</a>. 
+
 ### Notes
 
-You don't have to save a pointer to the object blogroll returns, you only need it if you plan to call into the blogroll, to change something or get data out of it. 
+Copy whatever styles you need in your application from the demo app's styles.css file.
 

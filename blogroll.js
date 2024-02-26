@@ -2,7 +2,9 @@ function blogroll (userOptions) {
 	console.log ("blogroll");
 	var options = {
 		whereToAppend: $(".divBlogrollContainer"),
-		title: appConsts.productnameForDisplay,
+		title: "blogroll.social",
+		urlSocketServer: "wss://feedland.com:443/_ws/",
+		flShowSocketMessages: true,
 		flDisplayTitle: false,
 		maxTitleLength: 25,
 		sortBy: "whenUpdated",
@@ -13,6 +15,7 @@ function blogroll (userOptions) {
 		urlFeedListOpml: undefined,
 		maxDaysInBlogroll: Infinity,
 		flSortLinks: true, //2/19/24 by DW
+		flBlogrollUpdates: true,
 		cursorMovedCallback: function (ixcursor) {
 			},
 		sortOptionsChangedCallback: function (sortBy, flReverseSort) {
@@ -49,7 +52,7 @@ function blogroll (userOptions) {
 		var mySocket = undefined;
 		function checkConnection () {
 			if (mySocket === undefined) {
-				mySocket = new WebSocket (appConsts.urlSocketServer); 
+				mySocket = new WebSocket (options.urlSocketServer); 
 				mySocket.onopen = function (evt) {
 					const s = "hello world";
 					console.log ("openFeedlandSocket: sending: " + s);
@@ -71,7 +74,7 @@ function blogroll (userOptions) {
 						var thePayload = getPayload (jsontext);
 						switch (theCommand) {
 							case "updatedFeed":
-								if (appConsts.flShowSocketMessages) {
+								if (options.flShowSocketMessages) {
 									console.log (nowstring () + ": " + thePayload.title + ", id == " + thePayload.feedUrl);
 									}
 								options.feedUpdatedCallback (thePayload);
@@ -89,11 +92,13 @@ function blogroll (userOptions) {
 		self.setInterval (checkConnection, 1000);
 		}
 	function getTheFeedList (urlFeedListOpml, callback) {
+		const whenstart = new Date ();
 		getFeedlistFromOpml (urlFeedListOpml, function (err, theFeedlist, theOutlineHead) {
 			if (err) {
 				callback (err);
 				}
 			else {
+				console.log ("getTheFeedList: " + secondsSince (whenstart) + " secs.");
 				callback (undefined, theFeedlist);
 				}
 			});
@@ -439,9 +444,8 @@ function blogroll (userOptions) {
 					}
 				});
 			if (flfound) { //it's one that we're watching
-				if (appConsts.flBlogrollUpdates) {
+				if (options.flBlogrollUpdates) {
 					console.log (nowstring () + ": " + theFeed.title + ", theFeed.feedUrl == " + theFeed.feedUrl);
-					console.log (theFeed);
 					theMatchedFeed.whenUpdated = theFeed.whenUpdated;
 					
 					buildTheTable ();
@@ -460,6 +464,7 @@ function blogroll (userOptions) {
 			});
 		
 		const socketOptions = {
+			urlSocketServer: options.urlSocketServer,
 			feedUpdatedCallback: function (theFeed) {
 				handleFeedUpdated (theFeed);
 				}
