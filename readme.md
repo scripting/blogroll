@@ -40,7 +40,7 @@ Add a global called appConsts, that has the following values in it.
 
 Where your startup code runs, create your blogroll. 
 
-```javascriptconst theBlogroll = new blogroll ({urlFeedListOpml: "http://myblog.org/blogroll.opml"});```
+```javascriptconst blogrollOptions = {urlFeedListOpml: "http://myblog.org/blogroll.opml"};const theBlogroll = new blogroll (blogrollOptions);```
 
 You don't have to save a pointer to the object <i>blogroll</i> returns, you only need it if you plan to call into the blogroll, to change something or get data out of it. 
 
