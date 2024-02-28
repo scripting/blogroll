@@ -9,8 +9,9 @@ function blogroll (userOptions) {
 		maxTitleLength: 25,
 		sortBy: "whenUpdated",
 		flReverseSort: false,
-		maxCharsItemText: 200,
-		flEllipsesAfterText: false,
+		maxCharsItemText: 100,
+		maxCharsItemTextTooltip: 1000,
+		flEllipsesAfterText: true,
 		ixcursor: 0,
 		urlFeedListOpml: undefined,
 		maxDaysInBlogroll: Infinity,
@@ -283,6 +284,23 @@ function blogroll (userOptions) {
 								else {
 									const itemList = $("<ul class=\"ulFeedItems\"></ul>");
 									theItems.forEach (function (item) {
+										function getFullItemText () { //2/26/24 by DW
+											var fullItemText = item.title;
+											if (fullItemText === undefined) {
+												fullItemText = maxStringLength (stripMarkup (item.description), options.maxCharsItemTextTooltip, true, options.flEllipsesAfterText);
+												}
+											fullItemText = trimWhitespace (itemtext);
+											
+											if (options.flEllipsesAfterText) {
+												if (fullItemText.length > 0) {
+													if (!isPunctuation (fullItemText [fullItemText.length - 1])) {
+														fullItemText += ".";
+														}
+													}
+												}
+											
+											return (fullItemText);
+											}
 										function getItemText (item) {
 											var itemtext = item.title;
 											if (itemtext === undefined) {
@@ -303,7 +321,9 @@ function blogroll (userOptions) {
 										const feedItem = $("<li class=\"liFeedItem\"></li>");
 										
 										const itemtext = getItemText (item);
-										feedItem.append ($("<span>" + itemtext + "</span>"));
+										const spTextPreview = $("<span class=\"spTextPreview\">" + itemtext + "</span>");
+										addToolTip (spTextPreview, getFullItemText (), "top");
+										feedItem.append (spTextPreview);
 										
 										const spItemPubdate = $("<span class=\"spItemPubdate\"> </span>"); //by adding a space here, we allow it to wrap before the date --2/16/24 by DW
 										const theLink = $("<a href=\"" + item.link + "\" target=\"_blank\" data-pubDate=\"" + item.pubDate + "\">" + getFeedlandTimeString (item.pubDate, false) + "</a>");
@@ -314,9 +334,11 @@ function blogroll (userOptions) {
 										
 										
 										feedItem.click (function (ev) {
-											console.log (itemtext);
-											console.log (jsonStringify (item));
-											viewFeedItemInEditor (item, theFeed);
+											console.log ("feedItem.click");
+											console.log (item);
+											if (item.link !== undefined) {
+												window.open (item.link);
+												}
 											ev.stopPropagation ();
 											});
 										itemList.append (feedItem);

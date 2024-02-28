@@ -4,6 +4,7 @@ body {
 	background-color: whitesmoke;
 	}
 .divPageBody {
+	display: none;
 	width: 40%;
 	margin-top: 50px;
 	margin-left: auto;

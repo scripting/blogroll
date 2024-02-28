@@ -63,6 +63,7 @@ function startup () {
 			},
 		blogrollDisplayedCallback: function () {
 			console.log ("blogrollDisplayedCallback");
+			$(".divPageBody").css ("display", "block");
 			}
 		});
 	

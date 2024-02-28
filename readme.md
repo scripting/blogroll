@@ -24,33 +24,23 @@ Create an account in FeedLand if you don't have one and subscribe to the OPML su
 
 In the <head> section of your HMTL page, include the following files. 
 
-<i>two files here, one for CSS and one for JS code</i>
+```javascript<link href="https://code.scripting.com/blogroll/blogroll.css" rel="stylesheet"><script src="https://code.scripting.com/blogroll/blogroll.js"></script>```
 
 ### Add the blogroll to your HTML
 
 In the <body> section of your HTML page, add a div with class `divBlogrollContainer`.
 
-```javascript
-
-<div class="divBlogrollContainer"></div>
-
-```
+```javascript<div class="divBlogrollContainer"></div>```
 
 ### In your JavaScript code
 
 Add a global called appConsts, that has the following values in it. 
 
-xxx
-
-(maybe make this unnecessary?)
+```javascriptconst appConsts = {	urlFeedlandServer: "https://feedland.social/",	urlSocketServer: "wss://feedland.social/",	};```
 
 Where your startup code runs, create your blogroll. 
 
-```javascript
-
-const theBlogroll = new blogroll ({urlFeedListOpml: "http://myblog.org/blogroll.opml"});
-
-```
+```javascriptconst theBlogroll = new blogroll ({urlFeedListOpml: "http://myblog.org/blogroll.opml"});```
 
 You don't have to save a pointer to the object <i>blogroll</i> returns, you only need it if you plan to call into the blogroll, to change something or get data out of it. 
 
