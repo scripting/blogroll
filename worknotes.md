@@ -1,3 +1,7 @@
+#### 2/29/24; 11:38:55 AM by DW
+
+New option -- options.whenCutoffDate, if defined, we won't include feeds that haven't updated since that date.
+
 #### 2/14/24; 10:55:21 AM by DW
 
 Pulled out of a larger project, realized this should be a feature that should be included in lots of projects.

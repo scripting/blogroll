@@ -1,12 +1,21 @@
 .divBlogrollContainer {
 	display: table-cell;
 	vertical-align: top;
-	width: 220px;
+	width: 240px;
+	margin-left: auto;
+	margin-right: auto;
 	margin-right: 10px;
+	border: 1px solid gold;
 	}
 .divBlogroll {
-	width: 100%;
+	width: 220px;
+	margin-left: auto;
+	margin-right: auto;
 	border: 1px solid silver;
+	}
+.divBlogrollTable {
+	width: 100%;
+	margin-right: 0;
 	}
 
 .divBlogrollTitle {
@@ -14,7 +23,7 @@
 	width: 100%;
 	font-size: 16px;
 	font-weight: bold;
-	padding-bottom: 10px;
+	padding-bottom: 15px;
 	}
 .spTitleArrow {
 	display: table-cell;
@@ -67,8 +76,11 @@
 	opacity: 0.8;
 	}
 
+.trBlogrollFeed {
+	background-color: white; 
+	}
 .trBlogrollCursor {
-	background-color: white;
+	background-color: whitesmoke;
 	}
 .trBlogrollCursor .tdBlogrollFeedTitle .spTitleString {
 	opacity: 1.0;
@@ -142,6 +154,13 @@
 	}
 .divNewsPod .spItemPubdate a:hover {
 	text-decoration: underline;
+	}
+
+.liFeedItem .popover-content p {
+	margin-bottom: 5px;
+	}
+.liFeedItem .popover-content p:last-child {
+	margin-bottom: 0;
 	}
 
 @media screen and (max-width: 576px) { /* the official number used by bootstrap toolkit */

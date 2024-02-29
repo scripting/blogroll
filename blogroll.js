@@ -17,6 +17,7 @@ function blogroll (userOptions) {
 		maxDaysInBlogroll: Infinity,
 		flSortLinks: true, //2/19/24 by DW
 		flBlogrollUpdates: true,
+		whenCutoffDate: undefined, //2/29/24 by DW
 		cursorMovedCallback: function (ixcursor) {
 			},
 		sortOptionsChangedCallback: function (sortBy, flReverseSort) {
@@ -35,9 +36,15 @@ function blogroll (userOptions) {
 		}
 	copyUserOptions (userOptions);
 	
+	var divBlogroll = undefined;
 	var theTable = undefined;
 	const whenstart = new Date ();
 	
+	function encode (s) { //8/11/21 by DW
+		s = encodeXml (s);
+		s = replaceAll (s, "'", "&" + "quot;"); //10/15/21 by DW
+		return (s);
+		}
 	function openFeedlandSocket (userOptions) { //2/11/24 by DW
 		var options = {
 			feedUpdatedCallback: function (theFeed) {
@@ -159,7 +166,7 @@ function blogroll (userOptions) {
 			options.cursorMovedCallback (theRow.index ());
 			}
 		
-		theTable = $("<table class=\"divBlogroll\"></table>");
+		theTable = $("<table class=\"divBlogrollTable\"></table>");
 		const theTableBody = $("<tbody></tbody>");
 		theTable.append (theTableBody);
 		
@@ -174,7 +181,7 @@ function blogroll (userOptions) {
 				divBlogrollTitle.append ($("<span class=\"spTitleText\">" + options.title + "</span>"));
 				divBlogrollTitle.append (spRightTitleArrow);
 				
-				options.whereToAppend.append (divBlogrollTitle);
+				divBlogroll.append (divBlogrollTitle);
 				}
 			}
 		function appendSortLinksAboveTable () { //2/19/24 by DW
@@ -185,7 +192,7 @@ function blogroll (userOptions) {
 				divBlogrollSortLinks.append (spTitleLink);
 				divBlogrollSortLinks.append (spWhenLink);
 				setSelectedLink ();
-				options.whereToAppend.append (divBlogrollSortLinks);
+				divBlogroll.append (divBlogrollSortLinks);
 				
 				function setSelectedLink () {
 					if (options.sortBy == "title") {
@@ -269,7 +276,21 @@ function blogroll (userOptions) {
 					}
 				});
 			theList.forEach (function (theFeed, ix) {
-				if (secondsSince (theFeed.whenUpdated) <= maxsecs) {
+				var flInclude = true;
+				if (theFeed.whenUpdated === undefined) {
+					flInclude = false;
+					}
+				else {
+					if (options.whenCutoffDate !== undefined) {
+						if (dayGreaterThanOrEqual (options.whenCutoffDate, theFeed.whenUpdated)) {
+							flInclude = false;
+							}
+						}
+					if (secondsSince (theFeed.whenUpdated) > maxsecs) {
+						flInclude = false;
+						}
+					}
+				if (flInclude) { //(secondsSince (theFeed.whenUpdated) <= maxsecs) {
 					var divNewsPod, tdWedge, spTimeContainer;
 					const theClass = (ix == options.ixcursor) ? " trBlogrollCursor " : "";
 					const theRow = $("<tr class=\"trBlogrollFeed" + theClass + "\"></tr>");
@@ -284,6 +305,10 @@ function blogroll (userOptions) {
 								else {
 									const itemList = $("<ul class=\"ulFeedItems\"></ul>");
 									theItems.forEach (function (item) {
+										function hidePopover (thePopover) {
+											$(thePopover).data ("content", "");
+											$(thePopover).popover ("hide");
+											}
 										function getFullItemText () { //2/26/24 by DW
 											var fullItemText = item.title;
 											if (fullItemText === undefined) {
@@ -320,9 +345,7 @@ function blogroll (userOptions) {
 											}
 										const feedItem = $("<li class=\"liFeedItem\"></li>");
 										
-										const itemtext = getItemText (item);
-										const spTextPreview = $("<span class=\"spTextPreview\">" + itemtext + "</span>");
-										addToolTip (spTextPreview, getFullItemText (), "top");
+										const spTextPreview = $("<span class=\"spTextPreview\">" + getItemText (item) + "</span>");
 										feedItem.append (spTextPreview);
 										
 										const spItemPubdate = $("<span class=\"spItemPubdate\"> </span>"); //by adding a space here, we allow it to wrap before the date --2/16/24 by DW
@@ -330,17 +353,29 @@ function blogroll (userOptions) {
 										spItemPubdate.append (theLink);
 										feedItem.append (spItemPubdate);
 										
-										addToolTip (spItemPubdate, itemtext, "top");
-										
-										
 										feedItem.click (function (ev) {
-											console.log ("feedItem.click");
-											console.log (item);
 											if (item.link !== undefined) {
+												console.log (item);
 												window.open (item.link);
 												}
 											ev.stopPropagation ();
 											});
+										
+										feedItem.mouseenter (function (ev) {
+											if (item.description !== undefined) {
+												const placeToPopOver = spTextPreview;
+												placeToPopOver.data ("toggle", "popover");
+												placeToPopOver.data ("placement", "left");
+												placeToPopOver.data ("html", "true");
+												placeToPopOver.data ("content", maxStringLength (item.description, 500, true, true));
+												placeToPopOver.popover ("show");
+												}
+											});
+										feedItem.mouseleave (function (ev) {
+											const placeToPopOver = spTextPreview;
+											hidePopover (placeToPopOver);
+											});
+										
 										itemList.append (feedItem);
 										});
 									divNewsPod.empty ();
@@ -366,6 +401,9 @@ function blogroll (userOptions) {
 						var whenstring = getFeedlandTimeString (new Date (when), false);
 						if (endsWith (whenstring, " mins")) { //this gives us back one char in each line, because this is the longest whenstring -- 2/16/24 by DW
 							whenstring = stringDelete (whenstring, whenstring.length, 1);
+							}
+						if (whenstring.length == 0) {
+							console.log (theFeed);
 							}
 						return ("<span class=\"spWhenUpdated\">" + whenstring + "</span>");
 						}
@@ -454,10 +492,13 @@ function blogroll (userOptions) {
 				}
 			}
 		
+		divBlogroll = $("<div class=\"divBlogroll\"></div>");
+		options.whereToAppend.append (divBlogroll);
+		
 		appendTitleAboveTable (); //2/17/24 by DW
 		appendSortLinksAboveTable (); //2/19/24 by DW
 		buildTheTable ();
-		options.whereToAppend.append (theTable);
+		divBlogroll.append (theTable);
 		activateToolTips (); //2/19/24 by DW
 		
 		makeSureBlogrollDisplayed (); //2/29/24 by DW
