@@ -3,9 +3,9 @@ function blogroll (userOptions) {
 	var options = {
 		whereToAppend: $(".divBlogrollContainer"),
 		title: "blogroll.social",
+		flDisplayTitle: false,
 		urlSocketServer: "wss://feedland.com:443/_ws/",
 		flShowSocketMessages: true,
-		flDisplayTitle: false,
 		maxTitleLength: 25,
 		sortBy: "whenUpdated",
 		flReverseSort: false,
@@ -447,12 +447,20 @@ function blogroll (userOptions) {
 					}
 				});
 			}
+		function makeSureBlogrollDisplayed () { //2/29/24 by DW
+			const where = options.whereToAppend;
+			if (where.css ("display") != "block") {
+				where.css ("display", "block");
+				}
+			}
 		
-		appendSortLinksAboveTable (); //2/19/24 by DW
 		appendTitleAboveTable (); //2/17/24 by DW
+		appendSortLinksAboveTable (); //2/19/24 by DW
 		buildTheTable ();
 		options.whereToAppend.append (theTable);
 		activateToolTips (); //2/19/24 by DW
+		
+		makeSureBlogrollDisplayed (); //2/29/24 by DW
 		
 		function handleFeedUpdated (theFeed) {
 			var flfound = false, ixmatch = undefined, theMatchedFeed = undefined;

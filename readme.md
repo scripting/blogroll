@@ -22,7 +22,7 @@ Create an account in FeedLand if you don't have one and subscribe to the OPML su
 
 ### Including the blogroll code
 
-In the <head> section of your HMTL page, include the following files. 
+In the &lt;head> section of your HMTL page, include the following files. 
 
 ```javascript<link href="https://code.scripting.com/blogroll/blogroll.css" rel="stylesheet"><script src="https://code.scripting.com/blogroll/blogroll.js"></script>```
 
