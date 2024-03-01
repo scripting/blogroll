@@ -5,13 +5,14 @@
 	margin-left: auto;
 	margin-right: auto;
 	margin-right: 10px;
-	border: 1px solid gold;
+	border: 1px solid gainsboro;
+	background-color: white;
+	padding-top: 5px;
 	}
 .divBlogroll {
 	width: 220px;
 	margin-left: auto;
 	margin-right: auto;
-	border: 1px solid silver;
 	}
 .divBlogrollTable {
 	width: 100%;
@@ -44,12 +45,11 @@
 	}
 
 .trBlogrollFeed {
-	border-top: 1px solid #dddddd;
 	}
 .trBlogrollFeed td {
 	padding-left: 8px;
-	padding-top: 6px;
-	padding-bottom: 6px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 	}
 .trBlogrollFeed .tdBlogrollFeedTitle {
 	font-size: 15px;
@@ -80,7 +80,7 @@
 	background-color: white; 
 	}
 .trBlogrollCursor {
-	background-color: whitesmoke;
+	background-color: gainsboro;
 	}
 .trBlogrollCursor .tdBlogrollFeedTitle .spTitleString {
 	opacity: 1.0;

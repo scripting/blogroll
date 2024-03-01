@@ -1,5 +1,6 @@
 function blogroll (userOptions) {
-	console.log ("blogroll");
+	const version = "0.4.0";
+	console.log ("blogroll v" + version);
 	var options = {
 		whereToAppend: $(".divBlogrollContainer"),
 		title: "blogroll.social",
@@ -21,6 +22,9 @@ function blogroll (userOptions) {
 		cursorMovedCallback: function (ixcursor) {
 			},
 		sortOptionsChangedCallback: function (sortBy, flReverseSort) {
+			},
+		includeFeedCallback: function (theFeed) { //3/1/24 by DW
+			return (true);
 			},
 		blogrollDisplayedCallback: function () {
 			}
@@ -277,17 +281,22 @@ function blogroll (userOptions) {
 				});
 			theList.forEach (function (theFeed, ix) {
 				var flInclude = true;
-				if (theFeed.whenUpdated === undefined) {
+				if (!options.includeFeedCallback (theFeed)) { //3/1/24 by DW
 					flInclude = false;
 					}
 				else {
-					if (options.whenCutoffDate !== undefined) {
-						if (dayGreaterThanOrEqual (options.whenCutoffDate, theFeed.whenUpdated)) {
+					if (theFeed.whenUpdated === undefined) {
+						flInclude = false;
+						}
+					else {
+						if (options.whenCutoffDate !== undefined) {
+							if (dayGreaterThanOrEqual (options.whenCutoffDate, theFeed.whenUpdated)) {
+								flInclude = false;
+								}
+							}
+						if (secondsSince (theFeed.whenUpdated) > maxsecs) {
 							flInclude = false;
 							}
-						}
-					if (secondsSince (theFeed.whenUpdated) > maxsecs) {
-						flInclude = false;
 						}
 					}
 				if (flInclude) { //(secondsSince (theFeed.whenUpdated) <= maxsecs) {
@@ -353,26 +362,18 @@ function blogroll (userOptions) {
 										spItemPubdate.append (theLink);
 										feedItem.append (spItemPubdate);
 										
-										feedItem.click (function (ev) {
-											if (item.link !== undefined) {
-												console.log (item);
-												window.open (item.link);
-												}
-											ev.stopPropagation ();
-											});
+										const placeToPopOver = spItemPubdate;
 										
-										feedItem.mouseenter (function (ev) {
+										placeToPopOver.mouseenter (function (ev) {
 											if (item.description !== undefined) {
-												const placeToPopOver = spTextPreview;
 												placeToPopOver.data ("toggle", "popover");
-												placeToPopOver.data ("placement", "left");
+												placeToPopOver.data ("placement", "right");
 												placeToPopOver.data ("html", "true");
 												placeToPopOver.data ("content", maxStringLength (item.description, 500, true, true));
 												placeToPopOver.popover ("show");
 												}
 											});
-										feedItem.mouseleave (function (ev) {
-											const placeToPopOver = spTextPreview;
+										placeToPopOver.mouseleave (function (ev) {
 											hidePopover (placeToPopOver);
 											});
 										
