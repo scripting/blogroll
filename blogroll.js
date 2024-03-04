@@ -16,6 +16,7 @@ function blogroll (userOptions) {
 		ixcursor: 0,
 		urlFeedListOpml: undefined,
 		maxDaysInBlogroll: Infinity,
+		maxItemsInBlogroll: Infinity, //3/3/24 by DW
 		flSortLinks: true, //2/19/24 by DW
 		flBlogrollUpdates: true,
 		whenCutoffDate: undefined, //2/29/24 by DW
@@ -177,14 +178,7 @@ function blogroll (userOptions) {
 		function appendTitleAboveTable () {
 			if (options.flDisplayTitle) {
 				const divBlogrollTitle = $("<div class=\"divBlogrollTitle\"></div>");
-				
-				const spLeftTitleArrow = $("<span class=\"spTitleArrow spTitleArrowLeft\">" + uparrowChar + "</span>");
-				const spRightTitleArrow = $("<span class=\"spTitleArrow spTitleArrowRight\">" + uparrowChar + "</span>");
-				
-				divBlogrollTitle.append (spLeftTitleArrow);
-				divBlogrollTitle.append ($("<span class=\"spTitleText\">" + options.title + "</span>"));
-				divBlogrollTitle.append (spRightTitleArrow);
-				
+				divBlogrollTitle.append ($("<span class=\"divTitleText\">" + options.title + "</span>"));
 				divBlogroll.append (divBlogrollTitle);
 				}
 			}
@@ -232,6 +226,7 @@ function blogroll (userOptions) {
 		function buildTheTable () {
 			const whenstart = new Date ();
 			const maxsecs = options.maxDaysInBlogroll * 60 * 60 * 24;
+			var ctitems = 0;
 			theTableBody.empty ();
 			theList.sort (function (a, b) {
 				function getDateForSorting (theDate) {
@@ -280,26 +275,34 @@ function blogroll (userOptions) {
 					}
 				});
 			theList.forEach (function (theFeed, ix) {
-				var flInclude = true;
-				if (!options.includeFeedCallback (theFeed)) { //3/1/24 by DW
-					flInclude = false;
-					}
-				else {
-					if (theFeed.whenUpdated === undefined) {
+				function includeThisFeed () {
+					var flInclude = true;
+					if (ctitems++ > options.maxItemsInBlogroll) {
 						flInclude = false;
 						}
 					else {
-						if (options.whenCutoffDate !== undefined) {
-							if (dayGreaterThanOrEqual (options.whenCutoffDate, theFeed.whenUpdated)) {
-								flInclude = false;
-								}
-							}
-						if (secondsSince (theFeed.whenUpdated) > maxsecs) {
+						if (!options.includeFeedCallback (theFeed)) { //3/1/24 by DW
 							flInclude = false;
 							}
+						else {
+							if (theFeed.whenUpdated === undefined) {
+								flInclude = false;
+								}
+							else {
+								if (options.whenCutoffDate !== undefined) {
+									if (dayGreaterThanOrEqual (options.whenCutoffDate, theFeed.whenUpdated)) {
+										flInclude = false;
+										}
+									}
+								if (secondsSince (theFeed.whenUpdated) > maxsecs) {
+									flInclude = false;
+									}
+								}
+							}
 						}
+					return (flInclude);
 					}
-				if (flInclude) { //(secondsSince (theFeed.whenUpdated) <= maxsecs) {
+				if (includeThisFeed ()) { 
 					var divNewsPod, tdWedge, spTimeContainer;
 					const theClass = (ix == options.ixcursor) ? " trBlogrollCursor " : "";
 					const theRow = $("<tr class=\"trBlogrollFeed" + theClass + "\"></tr>");

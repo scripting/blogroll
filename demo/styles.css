@@ -15,7 +15,7 @@ h1 {
 	font-family: Oswald;
 	font-size: 48px;
 	margin-top: .5em;
-	margin-bottom: .6em;
+	margin-bottom: .8em;
 	letter-spacing: -3px;
 	text-align: center;
 	}
@@ -29,22 +29,27 @@ h1 {
 	font-size: 15px;
 	line-height: 140%;
 	list-style-type: none;
+	vertical-align: top;
 	padding-right: 25px;
-	padding-top: 12px; /* offset for the sort links in the blogroll */
+	}
+.divBlogrollContainerContainer {
+	display: table-cell;
 	}
 .ulBlogrollExplainer li {
 	margin-bottom: 10px;
 	}
-.ulBlogrollExplainer .btn {
-	width: 65px;
-	margin-right: 10px;
-	}
-
 .ulExplainerText {
 	list-style-type: disc;
 	margin-top: 10px;
 	}
-
+.divBlogrollTitle {
+	font-family: "Rancho";
+	font-size: 36px;
+	margin-top: 5px;
+	margin-bottom: 3px;
+	line-height: 1.1em;
+	letter-spacing: -1px;
+	}
 
 @media screen and (max-width: 1024px) { /* tablets */
 	.divPageBody {
