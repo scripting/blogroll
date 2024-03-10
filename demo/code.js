@@ -31,8 +31,7 @@ function startBlogroll () {
 		sortBy: blogrollMemory.sortBy,
 		flReverseSort: blogrollMemory.flReverseSort,
 		urlFeedListOpml: appConsts.urlFeedListOpml,
-		maxDaysInBlogroll: 60,
-		maxItemsInBlogroll: 25,
+		maxItemsInBlogroll: 40,
 		title: "My Fave Blogs",
 		flDisplayTitle: false,
 		cursorMovedCallback: function (ixcursor) {
