@@ -1,3 +1,9 @@
+#### 3/10/24; 4:06:42 PM by DW
+
+We got flReverseSort backwards in its implementation. 
+
+If it's true, then we show the feeds in reverse chronologic order. 
+
 #### 2/29/24; 11:38:55 AM by DW
 
 New option -- options.whenCutoffDate, if defined, we won't include feeds that haven't updated since that date.

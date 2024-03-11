@@ -9,7 +9,7 @@ function blogroll (userOptions) {
 		flShowSocketMessages: true,
 		maxTitleLength: 25,
 		sortBy: "whenUpdated",
-		flReverseSort: false,
+		flReverseSort: true,
 		maxCharsItemText: 100,
 		maxCharsItemTextTooltip: 1000,
 		flEllipsesAfterText: true,
@@ -266,7 +266,7 @@ function blogroll (userOptions) {
 						return (val);
 					case "whenUpdated":
 						var adate = getDateForSorting (a.whenUpdated), bdate = getDateForSorting (b.whenUpdated);
-						if (options.flReverseSort) { //7/11/22 by DW
+						if (!options.flReverseSort) { //7/11/22 by DW & 3/10/24 by DW
 							let tmp = adate;
 							adate = bdate;
 							bdate = tmp;
