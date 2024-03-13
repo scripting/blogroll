@@ -16,7 +16,6 @@ h1 {
 	font-size: 48px;
 	margin-top: .5em;
 	margin-bottom: .8em;
-	letter-spacing: -3px;
 	text-align: center;
 	}
 .divPresentation {
@@ -41,14 +40,6 @@ h1 {
 .ulExplainerText {
 	list-style-type: disc;
 	margin-top: 10px;
-	}
-.divBlogrollTitle {
-	font-family: "Rancho";
-	font-size: 36px;
-	margin-top: 5px;
-	margin-bottom: 3px;
-	line-height: 1.1em;
-	letter-spacing: -1px;
 	}
 
 @media screen and (max-width: 1024px) { /* tablets */

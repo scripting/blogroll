@@ -48,7 +48,7 @@ You don't have to save a pointer to the object <i>blogroll</i> returns, you only
 
 Here's a list of the options you can add to the object you pass into the blogroll routine.
 
-* urlFeedListOpml: a string, the URL of the blogroll OPML file,
+* urlBlogrollOpml: a string, the URL of the blogroll OPML file,
 
 * whereToAppend: a jQuery object, the DOM object we'll append the blogroll to
 

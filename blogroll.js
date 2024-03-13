@@ -1,11 +1,13 @@
 function blogroll (userOptions) {
-	const version = "0.4.0";
+	const version = "0.4.1";
 	console.log ("blogroll v" + version);
 	var options = {
+		urlBlogrollOpml: undefined,
+		urlFeedlandViewBlogroll: undefined, //3/13/24 by DW
 		whereToAppend: $(".divBlogrollContainer"),
 		title: "blogroll.social",
 		flDisplayTitle: false,
-		urlSocketServer: "wss://feedland.com:443/_ws/",
+		urlSocketServer: "wss://feedland.social/",
 		flShowSocketMessages: true,
 		maxTitleLength: 25,
 		sortBy: "whenUpdated",
@@ -14,7 +16,6 @@ function blogroll (userOptions) {
 		maxCharsItemTextTooltip: 1000,
 		flEllipsesAfterText: true,
 		ixcursor: 0,
-		urlFeedListOpml: undefined,
 		maxDaysInBlogroll: Infinity,
 		maxItemsInBlogroll: Infinity, //3/3/24 by DW
 		flSortLinks: true, //2/19/24 by DW
@@ -32,6 +33,10 @@ function blogroll (userOptions) {
 		};
 	function copyUserOptions (userOptions) {
 		if (userOptions !== undefined) {
+			if (userOptions.urlFeedListOpml !== undefined) { //3/12/24 by DW
+				userOptions.urlBlogrollOpml = userOptions.urlFeedListOpml;
+				delete userOptions.urlFeedListOpml;
+				}
 			for (x in userOptions) {
 				if (userOptions [x] !== undefined) {
 					options [x] = userOptions [x];
@@ -40,6 +45,7 @@ function blogroll (userOptions) {
 			}
 		}
 	copyUserOptions (userOptions);
+	
 	
 	var divBlogroll = undefined;
 	var theTable = undefined;
@@ -104,9 +110,9 @@ function blogroll (userOptions) {
 			}
 		self.setInterval (checkConnection, 1000);
 		}
-	function getTheFeedList (urlFeedListOpml, callback) {
+	function getTheFeedList (urlBlogrollOpml, callback) {
 		const whenstart = new Date ();
-		getFeedlistFromOpml (urlFeedListOpml, function (err, theFeedlist, theOutlineHead) {
+		getFeedlistFromOpml (urlBlogrollOpml, function (err, theFeedlist, theOutlineHead) {
 			if (err) {
 				callback (err);
 				}
@@ -125,6 +131,17 @@ function blogroll (userOptions) {
 			getFeedItems (theFeed.feedUrl, maxItems, callback);
 			}
 		}
+	
+	function viewListInFeedland () { //3/13/24 by DW
+		console.log ("viewListInFeedland");
+		if (options.urlFeedlandViewBlogroll === undefined) {
+			alertDialog ("Can't view the blogroll in FeedLand, because the URL hasn't been specified in the software.");
+			}
+		else {
+			window.open (options.urlFeedlandViewBlogroll);
+			}
+		}
+	
 	function viewBlogroll (theList) {
 		
 		const cursorClass = "trBlogrollCursor";
@@ -175,10 +192,53 @@ function blogroll (userOptions) {
 		const theTableBody = $("<tbody></tbody>");
 		theTable.append (theTableBody);
 		
+		function getBlogrollMenu () { //3/11/24 by DW
+			
+			
+			
+			const divBlogrollMenu = $("<div class=\"dropdown divBlogrollMenu\"></div>");
+			const aMenuLink = $("<a class=\"dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-expanded=\"false\"><i class=\"fas fa-ellipsis-v\"></i></a>");
+			const ulMenu = $("<ul class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\"></ul>");
+			
+			divBlogrollMenu.append (aMenuLink);
+			divBlogrollMenu.append (ulMenu);
+			
+			function addDividerToMenu () {
+				ulMenu.append ($("<li class=\"divider\"></li>"));
+				}
+			function addMenuItem (linetext, callback) {
+				const menuItem = $("<li><a class=\"dropdown-item\" href=\"#\">" + linetext + "</a></li>");
+				ulMenu.append (menuItem);
+				menuItem.click (function () {
+					console.log ("click " + linetext);
+					if (callback !== undefined) {
+						callback ();
+						}
+					});
+				}
+			
+			addMenuItem ("About blogrolls..", function () {
+				window.open ("https://blogroll.social/");
+				});
+			addDividerToMenu ();
+			addMenuItem ("View list in OPML..", function () {
+				window.open (options.urlBlogrollOpml);
+				});
+			addMenuItem ("View list in FeedLand...", function () {
+				viewListInFeedland ();
+				});
+			addDividerToMenu ();
+			addMenuItem ("Developer info..", function () {
+				window.open ("https://opml.org/blogroll.opml");
+				});
+			
+			return (divBlogrollMenu);
+			}
+		
 		function appendTitleAboveTable () {
 			if (options.flDisplayTitle) {
 				const divBlogrollTitle = $("<div class=\"divBlogrollTitle\"></div>");
-				divBlogrollTitle.append ($("<span class=\"divTitleText\">" + options.title + "</span>"));
+				divBlogrollTitle.append ($("<div class=\"divTitleText\">" + options.title + "</div>"));
 				divBlogroll.append (divBlogrollTitle);
 				}
 			}
@@ -496,6 +556,8 @@ function blogroll (userOptions) {
 				}
 			}
 		
+		options.whereToAppend.append (getBlogrollMenu ());
+		
 		divBlogroll = $("<div class=\"divBlogroll\"></div>");
 		options.whereToAppend.append (divBlogroll);
 		
@@ -572,11 +634,11 @@ function blogroll (userOptions) {
 			});
 		}
 	
-	if (options.urlFeedListOpml === undefined) {
-		console.log ("Can't display the blogroll because options.urlFeedListOpml was not specified.");
+	if (options.urlBlogrollOpml === undefined) {
+		console.log ("Can't display the blogroll because options.urlBlogrollOpml was not specified.");
 		}
 	else {
-		getTheFeedList (options.urlFeedListOpml, function (err, theList) {
+		getTheFeedList (options.urlBlogrollOpml, function (err, theList) {
 			if (err) {
 				console.log ("startBlogroll: err.message == " + err.message);
 				}

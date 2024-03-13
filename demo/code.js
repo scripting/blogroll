@@ -5,7 +5,9 @@ const appConsts = {
 	
 	urlSocketServer: "wss://feedland.social/",
 	
-	urlFeedListOpml: "https://feedland.social/opml?screenname=davewiner&catname=blogroll",
+	urlBlogrollOpml: "https://feedland.social/opml?screenname=davewiner&catname=blogroll",
+	
+	urlFeedlandViewBlogroll: "https://feedland.social/?username=davewiner&catname=blogroll", //3/13/24 by DW
 	
 	flShowSocketMessages: true,
 	flBlogrollUpdates: true,
@@ -25,15 +27,16 @@ function saveBlogrollMemory () {
 
 function startBlogroll () {
 	theBlogroll = new blogroll ({
+		title: "Just A Blogroll",
+		urlBlogrollOpml: appConsts.urlBlogrollOpml,
+		urlFeedlandViewBlogroll: appConsts.urlFeedlandViewBlogroll, //3/13/24 by DW
 		urlSocketServer: appConsts.urlSocketServer,
 		whereToAppend: $(".divBlogrollContainer"),
 		ixcursor: blogrollMemory.ixcursor,
 		sortBy: blogrollMemory.sortBy,
 		flReverseSort: blogrollMemory.flReverseSort,
-		urlFeedListOpml: appConsts.urlFeedListOpml,
 		maxItemsInBlogroll: 40,
-		title: "My Fave Blogs",
-		flDisplayTitle: false,
+		flDisplayTitle: true,
 		cursorMovedCallback: function (ixcursor) {
 			blogrollMemory.ixcursor = ixcursor;
 			saveBlogrollMemory ();

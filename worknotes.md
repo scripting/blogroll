@@ -1,3 +1,21 @@
+#### 3/13/24; 11:09:14 AM by DW
+
+Finished the menu for now, and chose Cinzel font for the title part of the blogroll. 
+
+#### 3/12/24; 2:14:05 PM by DW
+
+Change the name of options.urlFeedListOpml to options.urlBlogrollOpml.
+
+but we still accept urlFeedListOpml to ease transition
+
+We need a default for options.urlBlogrollOpml.
+
+#### 3/11/24; 10:27:10 AM by DW
+
+Doing some work off on the site, we now have to worry about deployed code.
+
+To release the new version, drop the /testing from the path above.
+
 #### 3/10/24; 4:06:42 PM by DW
 
 We got flReverseSort backwards in its implementation. 
