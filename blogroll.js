@@ -1,6 +1,28 @@
 function blogroll (userOptions) {
-	const version = "0.4.1";
+	const version = "0.4.2";
 	console.log ("blogroll v" + version);
+	
+	var blogrollMemory = { //3/15/24 by DW
+		ixcursor: 0,
+		sortBy: "whenUpdated",
+		flReverseSort: true
+		}
+	function saveBlogrollMemory () { //3/15/24 by DW
+		localStorage.blogrollMemory = jsonStringify (blogrollMemory);
+		}
+	if (localStorage.blogrollMemory !== undefined) { //3/15/24 by DW
+		try {
+			var jstruct = JSON.parse (localStorage.blogrollMemory);
+			for (var x in jstruct) {
+				if (jstruct [x] !== undefined) {
+					blogrollMemory [x] = jstruct [x];
+					}
+				}
+			}
+		catch (err) {
+			}
+		}
+	
 	var options = {
 		urlBlogrollOpml: undefined,
 		urlFeedlandViewBlogroll: undefined, //3/13/24 by DW
@@ -10,20 +32,30 @@ function blogroll (userOptions) {
 		urlSocketServer: "wss://feedland.social/",
 		flShowSocketMessages: true,
 		maxTitleLength: 25,
-		sortBy: "whenUpdated",
-		flReverseSort: true,
+		ixcursor: blogrollMemory.ixcursor,
+		sortBy: blogrollMemory.sortBy,
+		flReverseSort: blogrollMemory.flReverseSort,
 		maxCharsItemText: 100,
 		maxCharsItemTextTooltip: 1000,
 		flEllipsesAfterText: true,
-		ixcursor: 0,
 		maxDaysInBlogroll: Infinity,
 		maxItemsInBlogroll: Infinity, //3/3/24 by DW
 		flSortLinks: true, //2/19/24 by DW
 		flBlogrollUpdates: true,
 		whenCutoffDate: undefined, //2/29/24 by DW
+		flUseBlogrollMemory: true, //3/15/24 by DW
 		cursorMovedCallback: function (ixcursor) {
+			if (options.flUseBlogrollMemory) {
+				blogrollMemory.ixcursor = ixcursor;
+				saveBlogrollMemory ();
+				}
 			},
 		sortOptionsChangedCallback: function (sortBy, flReverseSort) {
+			if (options.flUseBlogrollMemory) {
+				blogrollMemory.sortBy = sortBy;
+				blogrollMemory.flReverseSort = flReverseSort;
+				saveBlogrollMemory ();
+				}
 			},
 		includeFeedCallback: function (theFeed) { //3/1/24 by DW
 			return (true);
@@ -45,7 +77,6 @@ function blogroll (userOptions) {
 			}
 		}
 	copyUserOptions (userOptions);
-	
 	
 	var divBlogroll = undefined;
 	var theTable = undefined;
@@ -131,7 +162,6 @@ function blogroll (userOptions) {
 			getFeedItems (theFeed.feedUrl, maxItems, callback);
 			}
 		}
-	
 	function viewListInFeedland () { //3/13/24 by DW
 		console.log ("viewListInFeedland");
 		if (options.urlFeedlandViewBlogroll === undefined) {
@@ -141,7 +171,6 @@ function blogroll (userOptions) {
 			window.open (options.urlFeedlandViewBlogroll);
 			}
 		}
-	
 	function viewBlogroll (theList) {
 		
 		const cursorClass = "trBlogrollCursor";
@@ -217,8 +246,11 @@ function blogroll (userOptions) {
 					});
 				}
 			
-			addMenuItem ("About blogrolls..", function () {
+			addMenuItem ("Quick demo..", function () {
 				window.open ("https://blogroll.social/");
+				});
+			addMenuItem ("How to use blogroll..", function () {
+				window.open ("https://blogroll.social/howto.opml");
 				});
 			addDividerToMenu ();
 			addMenuItem ("View list in OPML..", function () {

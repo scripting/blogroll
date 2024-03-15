@@ -1,3 +1,9 @@
+#### 3/15/24; 10:49:15 AM by DW
+
+Sucked the blogrollMemory feature from the demo app into the package. No reason every app should have to recreate this. 
+
+If you want to turn it off, pass flUseBlogrollMemory == false in your options object. 
+
 #### 3/13/24; 11:09:14 AM by DW
 
 Finished the menu for now, and chose Cinzel font for the title part of the blogroll. 
