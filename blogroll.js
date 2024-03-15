@@ -26,9 +26,9 @@ function blogroll (userOptions) {
 	var options = {
 		urlBlogrollOpml: undefined,
 		urlFeedlandViewBlogroll: undefined, //3/13/24 by DW
-		whereToAppend: $(".divBlogrollContainer"),
+		idWhereToAppend: "idBlogrollContainer",
 		title: "blogroll.social",
-		flDisplayTitle: false,
+		flDisplayTitle: true, 
 		urlSocketServer: "wss://feedland.social/",
 		flShowSocketMessages: true,
 		maxTitleLength: 25,
@@ -581,22 +581,39 @@ function blogroll (userOptions) {
 					}
 				});
 			}
+		function whereToAppend () { //3/15/24 by DW
+			if (options.whereToAppend !== undefined) {
+				return (options.whereToAppend);
+				}
+			else {
+				return ($("#" + options.idWhereToAppend));
+				}
+			}
 		function makeSureBlogrollDisplayed () { //2/29/24 by DW
-			const where = options.whereToAppend;
+			const where = whereToAppend ();
 			if (where.css ("display") != "block") {
 				where.css ("display", "block");
 				}
 			}
+		function getFooter () {
+			const theFooter = $("<div class=\"divBlogrollFooter\"></div>");
+			theFooter.html ("<a href=\"https://feedland.com/\" target=\"_blank\">Powered by FeedLand.</a>");
+			return (theFooter);
+			}
 		
-		options.whereToAppend.append (getBlogrollMenu ());
+		const where = whereToAppend (); //3/15/24 by DW
+		where.append (getBlogrollMenu ());
 		
 		divBlogroll = $("<div class=\"divBlogroll\"></div>");
-		options.whereToAppend.append (divBlogroll);
+		where.append (divBlogroll);
 		
 		appendTitleAboveTable (); //2/17/24 by DW
 		appendSortLinksAboveTable (); //2/19/24 by DW
 		buildTheTable ();
 		divBlogroll.append (theTable);
+		
+		divBlogroll.append (getFooter ()); //3/15/24 by DW
+		
 		activateToolTips (); //2/19/24 by DW
 		
 		makeSureBlogrollDisplayed (); //2/29/24 by DW

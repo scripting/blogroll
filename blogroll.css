@@ -163,6 +163,19 @@
 	margin-bottom: 0;
 	}
 
+.divBlogrollFooter {
+	text-align: center;
+	font-size: 13px;
+	border-top: 1px solid gainsboro;
+	margin-top: 13px;
+	padding-top: 4px;
+	opacity: 0.5;
+	}
+.divBlogrollFooter a {
+	color: inherit;
+	cursor: pointer;
+	}
+
 @media screen and (max-width: 576px) { /* phones */
 	.divBlogrollContainer {
 		width: 180px;
