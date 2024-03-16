@@ -1,5 +1,94 @@
+function feedland (userOptions) { //3/16/24 by DW
+	var options = {
+		urlFeedlandServer: "https://feedland.social/",
+		urlSocketServer: "wss://feedland.social/",
+		flShowSocketMessages: true
+		}
+	if (userOptions !== undefined) { //allow caller to override defaults
+		for (x in userOptions) {
+			if (userOptions [x] !== undefined) {
+				options [x] = userOptions [x];
+				}
+			}
+		}
+	
+	function feedNotInDatabase (theFeed) { //6/3/23 by DW
+		const flFeedInDatabase = theFeed.whenCreated !== undefined;
+		return (!flFeedInDatabase);
+		}
+	function getFeedlistFromOpml (url, callback) {//6/2/23 by DW
+		console.log ("feedland.getFeedlistFromOpml: url == " + url);
+		servercall ("getfeedlistfromopml", {url}, false, function (err, thePackage) {
+			if (err) {
+				callback (err);
+				}
+			else {
+				callback (undefined, thePackage.feedlist, thePackage.head);
+				}
+			}, options.urlFeedlandServer);
+		}
+	function getFeedItems (feedUrl, maxItems=5, callback) { //8/31/22 by DW
+		console.log ("feedland.getFeedlistFromOpml: feedUrl == " + feedUrl);
+		const params = {
+			url: feedUrl, 
+			maxItems
+			};
+		servercall ("getfeeditems", params, false, callback, options.urlFeedlandServer);
+		}
+	function openSocket (handleUpdateCallback) { 
+		var mySocket = undefined;
+		function checkConnection () {
+			if (mySocket === undefined) {
+				mySocket = new WebSocket (options.urlSocketServer); 
+				mySocket.onopen = function (evt) {
+					const s = "hello world";
+					console.log ("feedland.openSocket: sending: " + s);
+					mySocket.send (s);
+					};
+				mySocket.onmessage = function (evt) {
+					function getPayload (jsontext) {
+						var thePayload = undefined;
+						try {
+							thePayload = JSON.parse (jsontext);
+							}
+						catch (err) {
+							}
+						return (thePayload);
+						}
+					if (evt.data !== undefined) { //no error
+						var theCommand = stringNthField (evt.data, "\r", 1);
+						var jsontext = stringDelete (evt.data, 1, theCommand.length + 1);
+						var thePayload = getPayload (jsontext);
+						switch (theCommand) {
+							case "updatedFeed":
+								if (options.flShowSocketMessages) {
+									console.log (nowstring () + ": " + thePayload.title + ", id == " + thePayload.feedUrl);
+									}
+								if (handleUpdateCallback !== undefined) { //3/16/24 by DW
+									handleUpdateCallback (thePayload);
+									}
+								break;
+							}
+						}
+					};
+				mySocket.onclose = function (evt) {
+					mySocket = undefined;
+					};
+				mySocket.onerror = function (evt) {
+					};
+				}
+			}
+		self.setInterval (checkConnection, 1000);
+		}
+	
+	this.getFeedItems = getFeedItems;
+	this.getFeedlistFromOpml = getFeedlistFromOpml;
+	this.openSocket = openSocket;
+	this.feedNotInDatabase = feedNotInDatabase;
+	this.openSocket = openSocket;
+	}
 function blogroll (userOptions) {
-	const version = "0.4.2";
+	const version = "0.4.3";
 	console.log ("blogroll v" + version);
 	
 	var blogrollMemory = { //3/15/24 by DW
@@ -78,72 +167,22 @@ function blogroll (userOptions) {
 		}
 	copyUserOptions (userOptions);
 	
+	console.log ("options == " + jsonStringify (options));
+	
 	var divBlogroll = undefined;
 	var theTable = undefined;
 	const whenstart = new Date ();
+	
+	const myFeedland = new feedland (options); //3/16/24 by DW
 	
 	function encode (s) { //8/11/21 by DW
 		s = encodeXml (s);
 		s = replaceAll (s, "'", "&" + "quot;"); //10/15/21 by DW
 		return (s);
 		}
-	function openFeedlandSocket (userOptions) { //2/11/24 by DW
-		var options = {
-			feedUpdatedCallback: function (theFeed) {
-				}
-			};
-		if (userOptions !== undefined) {
-			for (var x in userOptions) {
-				if (userOptions [x] !== undefined) {
-					options [x] = userOptions [x];
-					}
-				}
-			}
-		var mySocket = undefined;
-		function checkConnection () {
-			if (mySocket === undefined) {
-				mySocket = new WebSocket (options.urlSocketServer); 
-				mySocket.onopen = function (evt) {
-					const s = "hello world";
-					console.log ("openFeedlandSocket: sending: " + s);
-					mySocket.send (s);
-					};
-				mySocket.onmessage = function (evt) {
-					function getPayload (jsontext) {
-						var thePayload = undefined;
-						try {
-							thePayload = JSON.parse (jsontext);
-							}
-						catch (err) {
-							}
-						return (thePayload);
-						}
-					if (evt.data !== undefined) { //no error
-						var theCommand = stringNthField (evt.data, "\r", 1);
-						var jsontext = stringDelete (evt.data, 1, theCommand.length + 1);
-						var thePayload = getPayload (jsontext);
-						switch (theCommand) {
-							case "updatedFeed":
-								if (options.flShowSocketMessages) {
-									console.log (nowstring () + ": " + thePayload.title + ", id == " + thePayload.feedUrl);
-									}
-								options.feedUpdatedCallback (thePayload);
-								break;
-							}
-						}
-					};
-				mySocket.onclose = function (evt) {
-					mySocket = undefined;
-					};
-				mySocket.onerror = function (evt) {
-					};
-				}
-			}
-		self.setInterval (checkConnection, 1000);
-		}
 	function getTheFeedList (urlBlogrollOpml, callback) {
 		const whenstart = new Date ();
-		getFeedlistFromOpml (urlBlogrollOpml, function (err, theFeedlist, theOutlineHead) {
+		myFeedland.getFeedlistFromOpml (urlBlogrollOpml, function (err, theFeedlist, theOutlineHead) {
 			if (err) {
 				callback (err);
 				}
@@ -154,12 +193,12 @@ function blogroll (userOptions) {
 			});
 		}
 	function getFeedItemsForWedgeExpand (theFeed, maxItems, callback) { 
-		if (feedNotInDatabase (theFeed)) {
+		if (myFeedland.feedNotInDatabase (theFeed)) {
 			const message = "Can't expand because feed isn't in the database.";
 			callback ({message});
 			}
 		else {
-			getFeedItems (theFeed.feedUrl, maxItems, callback);
+			myFeedland.getFeedItems (theFeed.feedUrl, maxItems, callback);
 			}
 		}
 	function viewListInFeedland () { //3/13/24 by DW
@@ -641,6 +680,8 @@ function blogroll (userOptions) {
 				}
 			}
 		
+		myFeedland.openSocket (handleFeedUpdated);
+		
 		theTable.on ("feedUpdated", function (ev, params) { //2/12/24 by DW
 			handleFeedUpdated (params.theFeed);
 			});
@@ -648,14 +689,6 @@ function blogroll (userOptions) {
 			buildTheTable ();
 			activateToolTips (); 
 			});
-		
-		const socketOptions = {
-			urlSocketServer: options.urlSocketServer,
-			feedUpdatedCallback: function (theFeed) {
-				handleFeedUpdated (theFeed);
-				}
-			};
-		openFeedlandSocket (socketOptions); //2/11/24 by DW
 		
 		$("body").keydown (function (ev) {
 			var flconsumed = false;

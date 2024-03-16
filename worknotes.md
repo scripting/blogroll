@@ -1,3 +1,21 @@
+#### 3/16/24; 5:03:00 PM by DW
+
+Factored feedland-specific code from blogroll and put it into a routine called feedland.
+
+All calls to feedland will go through this function. 
+
+Very neat, easy to see where the boundary is. 
+
+Use the API routines, don't go behind the API, and we'll endeavor not to break you. 
+
+Still early days here...
+
+#### 3/16/24; 4:28:33 PM by DW
+
+It's possible a feed might appear twice in a blogroll, because it might be in two reading lists you subscribed to, for example.
+
+Not sure how I'm going to deal with this. 
+
 #### 3/15/24; 10:49:15 AM by DW
 
 Sucked the blogrollMemory feature from the demo app into the package. No reason every app should have to recreate this. 
