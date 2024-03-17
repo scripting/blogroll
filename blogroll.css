@@ -11,6 +11,11 @@
 	padding-top: 5px;
 	padding-bottom: 5px;
 	}
+.divBlogrollContainer:focus {
+	outline: 2px solid blue; 
+	background-color: lightgray;
+	}
+
 .divBlogroll {
 	width: 220px;
 	margin-left: auto;

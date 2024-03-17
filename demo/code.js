@@ -1,9 +1,4 @@
-
-
 var theBlogroll;
-
-function saveBlogrollMemory () {
-	}
 
 function startBlogroll () {
 	theBlogroll = new blogroll ({

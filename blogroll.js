@@ -636,12 +636,13 @@ function blogroll (userOptions) {
 			}
 		function getFooter () {
 			const theFooter = $("<div class=\"divBlogrollFooter\"></div>");
-			theFooter.html ("<a href=\"https://feedland.com/\" target=\"_blank\">Powered by FeedLand.</a>");
+			theFooter.html ("<a href=\"https://blogroll.social/\" target=\"_blank\">Powered by FeedLand.</a>");
 			return (theFooter);
 			}
 		
 		const where = whereToAppend (); //3/15/24 by DW
 		where.append (getBlogrollMenu ());
+		
 		
 		divBlogroll = $("<div class=\"divBlogroll\"></div>");
 		where.append (divBlogroll);
