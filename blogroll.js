@@ -285,14 +285,14 @@ function blogroll (userOptions) {
 					});
 				}
 			
-			addMenuItem ("Quick demo..", function () {
+			addMenuItem ("Blogroll home..", function () {
 				window.open ("https://blogroll.social/");
 				});
-			addMenuItem ("How to use blogroll..", function () {
+			addMenuItem ("How to use..", function () {
 				window.open ("https://blogroll.social/howto.opml");
 				});
 			addDividerToMenu ();
-			addMenuItem ("View list in OPML..", function () {
+			addMenuItem ("View this list in OPML..", function () {
 				window.open (options.urlBlogrollOpml);
 				});
 			addMenuItem ("View list in FeedLand...", function () {
