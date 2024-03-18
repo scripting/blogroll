@@ -88,7 +88,7 @@ function feedland (userOptions) { //3/16/24 by DW
 	this.openSocket = openSocket;
 	}
 function blogroll (userOptions) {
-	const version = "0.4.3";
+	const version = "0.4.4";
 	console.log ("blogroll v" + version);
 	
 	var blogrollMemory = { //3/15/24 by DW
@@ -628,6 +628,11 @@ function blogroll (userOptions) {
 				return ($("#" + options.idWhereToAppend));
 				}
 			}
+		function isBlogrollFocus () { //3/17/24 by DW
+			const where = whereToAppend ();
+			const fl = where.is (":focus");
+			return (fl);
+			}
 		function makeSureBlogrollDisplayed () { //2/29/24 by DW
 			const where = whereToAppend ();
 			if (where.css ("display") != "block") {
@@ -643,6 +648,12 @@ function blogroll (userOptions) {
 		const where = whereToAppend (); //3/15/24 by DW
 		where.append (getBlogrollMenu ());
 		
+		where.click (function () { //3/17/24 by DW -- didn't get this working
+			$(this).focus ();
+			if (where.is (":focus")) {
+				console.log ("focus");
+				}
+			});
 		
 		divBlogroll = $("<div class=\"divBlogroll\"></div>");
 		where.append (divBlogroll);
@@ -692,23 +703,25 @@ function blogroll (userOptions) {
 			});
 		
 		$("body").keydown (function (ev) {
-			var flconsumed = false;
-			switch (ev.which) {
-				case 13: //return
-					getCursorRow ().trigger ("expandToggle");
-					flconsumed = true;
-					break;
-				case 38: //up arrow
-					cursorUp ();
-					flconsumed = true;
-					break;
-				case 40: //down arrow
-					cursorDown ();
-					flconsumed = true;
-					break;
-				}
-			if (flconsumed) {
-				ev.preventDefault ();
+			if (isBlogrollFocus ()) { //3/17/24 by DW
+				var flconsumed = false;
+				switch (ev.which) {
+					case 13: //return
+						getCursorRow ().trigger ("expandToggle");
+						flconsumed = true;
+						break;
+					case 38: //up arrow
+						cursorUp ();
+						flconsumed = true;
+						break;
+					case 40: //down arrow
+						cursorDown ();
+						flconsumed = true;
+						break;
+					}
+				if (flconsumed) {
+					ev.preventDefault ();
+					}
 				}
 			});
 		
