@@ -62,7 +62,7 @@ function feedland (userOptions) { //3/16/24 by DW
 						switch (theCommand) {
 							case "updatedFeed":
 								if (options.flShowSocketMessages) {
-									console.log (nowstring () + ": " + thePayload.title + ", id == " + thePayload.feedUrl);
+									console.log (nowstring () + ": " + thePayload.title + ", " + thePayload.feedUrl);
 									}
 								if (handleUpdateCallback !== undefined) { //3/16/24 by DW
 									handleUpdateCallback (thePayload);
@@ -88,7 +88,9 @@ function feedland (userOptions) { //3/16/24 by DW
 	this.openSocket = openSocket;
 	}
 function blogroll (userOptions) {
-	const version = "0.4.4";
+	const $ = jQuery; //3/21/24 by DW
+	
+	const version = "0.4.5";
 	console.log ("blogroll v" + version);
 	
 	var blogrollMemory = { //3/15/24 by DW
@@ -130,7 +132,7 @@ function blogroll (userOptions) {
 		maxDaysInBlogroll: Infinity,
 		maxItemsInBlogroll: Infinity, //3/3/24 by DW
 		flSortLinks: true, //2/19/24 by DW
-		flBlogrollUpdates: true,
+		flBlogrollUpdates: false, //3/21/24 by DW
 		whenCutoffDate: undefined, //2/29/24 by DW
 		flUseBlogrollMemory: true, //3/15/24 by DW
 		cursorMovedCallback: function (ixcursor) {
@@ -257,6 +259,7 @@ function blogroll (userOptions) {
 			}
 		
 		theTable = $("<table class=\"divBlogrollTable\"></table>");
+		
 		const theTableBody = $("<tbody></tbody>");
 		theTable.append (theTableBody);
 		

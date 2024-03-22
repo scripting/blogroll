@@ -1,3 +1,7 @@
+#### 3/21/24; 8:33:21 AM by DW
+
+Changed default value for flBlogrollUpdates to false and left flShowSocketMessages as true. We were getting two messages for many feed updates. One from the websocket code, the other when it's inserted into the blogroll. I went with the websockets code because we can see what things were added to the blogroll. I'd also like to see which feeds have updated, even ones that are not part of the blogroll. 
+
 #### 3/18/24; 10:38:08 AM by DW
 
 User can now set focus, per this <a href="http://scripting.com/2024/03/18.html#a143125">description</a> on my blog.

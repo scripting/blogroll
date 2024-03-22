@@ -10,6 +10,8 @@
 	background-color: white;
 	padding-top: 5px;
 	padding-bottom: 5px;
+	font-family: Ubuntu;
+	font-size: 15px;
 	}
 .divBlogrollContainer:focus {
 	border-color: rgba(82, 168, 236, 0.8);
@@ -84,6 +86,7 @@
 
 .trBlogrollFeed {
 	background-color: white; 
+	line-height: normal; /* 3/18/24 by DW */
 	}
 .trBlogrollCursor {
 	background-color: whitesmoke;
