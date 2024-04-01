@@ -686,12 +686,12 @@ function blogroll (userOptions) {
 			if (flfound) { //it's one that we're watching
 				if (options.flBlogrollUpdates) {
 					console.log (nowstring () + ": " + theFeed.title + ", theFeed.feedUrl == " + theFeed.feedUrl);
-					theMatchedFeed.whenUpdated = theFeed.whenUpdated;
-					
-					buildTheTable ();
-					activateToolTips (); //2/19/24 by DW
-					
 					}
+				theMatchedFeed.whenUpdated = theFeed.whenUpdated;
+				
+				buildTheTable ();
+				activateToolTips (); //2/19/24 by DW
+				
 				}
 			}
 		

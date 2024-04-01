@@ -41,6 +41,10 @@ h1 {
 	list-style-type: disc;
 	margin-top: 10px;
 	}
+.trBlogrollFeed td {
+	padding-top: 4px;
+	padding-bottom: 4px;
+	}
 
 @media screen and (max-width: 1024px) { /* tablets */
 	.divPageBody {

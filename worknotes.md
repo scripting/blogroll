@@ -1,3 +1,7 @@
+#### 4/1/24; 10:26:21 AM by DW
+
+options.flBlogrollUpdates should have just controlled the console.log message, not whether the update was processed. once fixed, the realtime updates started again.  
+
 #### 3/21/24; 8:33:21 AM by DW
 
 Changed default value for flBlogrollUpdates to false and left flShowSocketMessages as true. We were getting two messages for many feed updates. One from the websocket code, the other when it's inserted into the blogroll. I went with the websockets code because we can see what things were added to the blogroll. I'd also like to see which feeds have updated, even ones that are not part of the blogroll. 
