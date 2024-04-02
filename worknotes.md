@@ -1,3 +1,11 @@
+#### 4/2/24; 11:16:36 AM by DW
+
+Including the full CSS file for the Bootstrap Toolkit is not okay, as we found out when we tried to deploy it on some sites with complicated styles. 
+
+So I created a file called <a href="http://scripting.com/code/blogroll/smallbootstrap.css">smallbootstrap.css</a>, that contains the minimum set of CSS that blogrolls need from Bootstrap. I determined this by replacing bootstrap.css with an empty file, and looked for things that were wrong and added code from the big CSS file to the small one, and each rule was prefixed with .divBlogrollContainer, so it would only apply to things we added to the page. 
+
+Tooltips were the most difficult, because they insert their objects at the 'body' level, but that was easy to override. 
+
 #### 4/1/24; 10:26:21 AM by DW
 
 options.flBlogrollUpdates should have just controlled the console.log message, not whether the update was processed. once fixed, the realtime updates started again.  

@@ -524,7 +524,7 @@ function blogroll (userOptions) {
 										tdWedge.html (downCaret);
 										divNewsPod.css ("visibility", "visible")
 										theFeed.flExpanded = true;
-										activateToolTips ();
+											activateToolTips ();
 										});
 									}
 								});
@@ -580,7 +580,7 @@ function blogroll (userOptions) {
 						
 						const spTitleString = $("<span class=\"spTitleString\">" + titleString + "</span>");
 						td.append (spTitleString);
-						addToolTip (spTitleString, theFeed.description);
+						addToolTip (spTitleString, theFeed.description, undefined, undefined, ".divBlogrollContainer");
 						
 						divNewsPod = $("<div class=\"divNewsPod\"></div>");
 						td.append (divNewsPod);

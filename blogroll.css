@@ -80,7 +80,7 @@
 .trBlogrollFeed .tdBlogrollFeedTitle .spTitleString {
 	display: inline-block;
 	white-space: nowrap;
-	max-width: 160px;
+	max-width: 155px; /* 4/2/24 by DW */
 	overflow: hidden;
 	text-overflow: ellipsis;
 	}
