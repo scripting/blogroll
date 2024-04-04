@@ -187,6 +187,31 @@
 	cursor: pointer;
 	}
 
+/* 4/3/24 by DW */
+	.divBlogrollContainer .dropdown-toggle {
+		width: 5.25px;
+		}
+	.divBlogrollContainer .dropdown-toggle:after {
+		width: 0;
+		content: "";
+		}
+	.divBlogrollContainer .dropdown a {
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		}
+	.divBlogrollContainer .divBlogrollTable td {
+		border: 0px;
+		}
+	.divBlogrollContainer .divBlogrollTable {
+		border: 0px;
+		}
+	.divBlogrollContainer .spItemPubdate a {
+		text-decoration: none;
+		text-decoration-style: none;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		}
+
 @media screen and (max-width: 576px) { /* phones */
 	.divBlogrollContainer {
 		width: 180px;

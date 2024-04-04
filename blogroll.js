@@ -266,8 +266,10 @@ function blogroll (userOptions) {
 		function getBlogrollMenu () { //3/11/24 by DW
 			
 			
-			
 			const divBlogrollMenu = $("<div class=\"dropdown divBlogrollMenu\"></div>");
+			
+			const btnMenuLink = $("<button class=\"btn dropdown-toggle\" type=\"button\" id=\"dropdownMenuButton\" data-toggle=\"dropdown\" aria-expanded=\"false\"><i class=\"fas fa-ellipsis-v\"></i></button>"); //4/4/24 by DW
+			
 			const aMenuLink = $("<a class=\"dropdown-toggle\" href=\"#\" role=\"button\" id=\"dropdownMenuLink\" data-toggle=\"dropdown\" aria-expanded=\"false\"><i class=\"fas fa-ellipsis-v\"></i></a>");
 			const ulMenu = $("<ul class=\"dropdown-menu\" aria-labelledby=\"dropdownMenuLink\"></ul>");
 			
@@ -305,6 +307,7 @@ function blogroll (userOptions) {
 			addMenuItem ("Developer info..", function () {
 				window.open ("https://opml.org/blogroll.opml");
 				});
+			
 			
 			return (divBlogrollMenu);
 			}

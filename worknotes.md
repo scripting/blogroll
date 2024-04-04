@@ -1,3 +1,19 @@
+#### 4/4/24; 10:24:43 AM by DW
+
+Trying to figure out why clicking the vertical ellipses to open the menu in the blogroll causes the window to scroll. 
+
+* https://chat.openai.com/share/e56378b6-9572-4d8a-98af-6683cfaf6df4
+
+* https://github.com/scripting/feedlandBlogrollToolkit/issues/8#issue-2223925106
+
+
+
+#### 4/3/24; 3:56:16 PM by DW
+
+Working on fixing problems in Om's blogroll, due to conflicts with the theme. See the additions near the end of blogroll.css.
+
+Temporarily changed the location we publish this stuff to. /scripting.com/code/testing/blogroll/
+
 #### 4/2/24; 11:16:36 AM by DW
 
 Including the full CSS file for the Bootstrap Toolkit is not okay, as we found out when we tried to deploy it on some sites with complicated styles. 
