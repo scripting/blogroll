@@ -1,3 +1,9 @@
+#### 4/4/24; 11:31:55 AM by DW
+
+In the demo page we were including smallbootstrap.css, but that's wrong. 
+
+This is one of my pages, and it's not meant to be included by others, that's what the toolkit is for.
+
 #### 4/4/24; 10:24:43 AM by DW
 
 Trying to figure out why clicking the vertical ellipses to open the menu in the blogroll causes the window to scroll. 
@@ -5,8 +11,6 @@ Trying to figure out why clicking the vertical ellipses to open the menu in the 
 * https://chat.openai.com/share/e56378b6-9572-4d8a-98af-6683cfaf6df4
 
 * https://github.com/scripting/feedlandBlogrollToolkit/issues/8#issue-2223925106
-
-
 
 #### 4/3/24; 3:56:16 PM by DW
 
