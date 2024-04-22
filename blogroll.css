@@ -1,23 +1,20 @@
 
 .divBlogrollContainer, #idBlogrollContainer {
-	display: table-cell;
+	display: block;
 	vertical-align: top;
 	width: 240px;
-	margin-left: auto;
-	margin-right: auto;
-	margin-right: 10px;
 	border: 1px solid gainsboro;
-	background-color: white;
 	padding-top: 5px;
 	padding-bottom: 5px;
 	font-family: Ubuntu;
 	font-size: 15px;
 	}
-.divBlogrollContainer:focus {
+.divBlogrollContainer:focus, #idBlogrollContainer:focus {
 	border-color: rgba(82, 168, 236, 0.8);
 	outline: 0;
 	outline: thin dotted \9;
 	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+	background-color: white;
 	}
 
 
@@ -45,7 +42,7 @@
 	display: block;
 	float: right;
 	font-size: 16px;
-	margin-top: 2px;
+	margin-top: -3px;
 	margin-right: 5px;
 	}
 .divBlogrollMenu a {
@@ -87,7 +84,6 @@
 	}
 
 .trBlogrollFeed {
-	background-color: white; 
 	line-height: normal; /* 3/18/24 by DW */
 	}
 .trBlogrollCursor {
@@ -137,6 +133,7 @@
 	padding-left: 2px;
 	padding-right: 5px;
 	font-weight: normal;
+	margin-top: -4px;
 	}
 .darkCaretColor {
 	opacity: .9;
@@ -171,6 +168,8 @@
 
 .liFeedItem .popover-content p {
 	margin-bottom: 5px;
+	font-size: 13px; 
+	margin-block-start: 5px;
 	}
 .liFeedItem .popover-content p:last-child {
 	margin-bottom: 0;
@@ -243,6 +242,31 @@
 		}
 	.divBlogrollContainer .dropdown-menu li a:hover {
 		background: dodgerblue;
+		}
+/* 4/16/24 by DW -- quiet mode */
+	.divQuietTitle {
+		font-size: 13px;
+		font-weight: bold;
+		margin-left: 5px;
+		margin-bottom: 10px;
+		}
+	.divQuietBlogroll {
+		width: 100%;
+		}
+	.divQuietTable {
+		}
+	.divQuietTable .trBlogrollFeed {
+		background-color: inherit;
+		}
+	.divQuietTable .trBlogrollCursor {
+		background-color: whitesmoke;
+		}
+	.divQuietBlogroll .trBlogrollFeed .tdBlogrollFeedTitle {
+		font-size: 14px;
+		}
+	.divQuietBlogroll .trBlogrollFeed td {
+		padding-top: 1px;
+		padding-bottom: 1px;
 		}
 
 @media screen and (max-width: 576px) { /* phones */

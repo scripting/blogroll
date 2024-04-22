@@ -7,6 +7,7 @@ function startBlogroll () {
 		urlFeedlandViewBlogroll: "https://feedland.social/?username=davewiner&catname=blogroll", 
 		idWhereToAppend: "idBlogrollContainer",
 		maxItemsInBlogroll: 40,
+		flQuietMode: false,
 		blogrollDisplayedCallback: function () {
 			console.log ("blogrollDisplayedCallback");
 			$(".divPageBody").css ("display", "block");

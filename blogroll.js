@@ -1,7 +1,7 @@
 function feedland (userOptions) { //3/16/24 by DW
 	var options = {
-		urlFeedlandServer: "https://feedland.social/",
-		urlSocketServer: "wss://feedland.social/",
+		urlFeedlandServer: "https://feedland.com/", //4/20/24 by DW
+		urlSocketServer: "wss://feedland.com:443/_ws/",
 		flShowSocketMessages: true
 		}
 	if (userOptions !== undefined) { //allow caller to override defaults
@@ -90,7 +90,7 @@ function feedland (userOptions) { //3/16/24 by DW
 function blogroll (userOptions) {
 	const $ = jQuery; //3/21/24 by DW
 	
-	const version = "0.4.5";
+	const version = "0.4.6";
 	console.log ("blogroll v" + version);
 	
 	var blogrollMemory = { //3/15/24 by DW
@@ -135,6 +135,7 @@ function blogroll (userOptions) {
 		flBlogrollUpdates: false, //3/21/24 by DW
 		whenCutoffDate: undefined, //2/29/24 by DW
 		flUseBlogrollMemory: true, //3/15/24 by DW
+		flQuietMode: true, //4/16/24 by DW
 		cursorMovedCallback: function (ixcursor) {
 			if (options.flUseBlogrollMemory) {
 				blogrollMemory.ixcursor = ixcursor;
@@ -168,6 +169,10 @@ function blogroll (userOptions) {
 			}
 		}
 	copyUserOptions (userOptions);
+	
+	if (options.flQuietMode) { //4/16/24 by DW -- maybe temporary
+		options.flSortLinks = false;
+		}
 	
 	console.log ("options == " + jsonStringify (options));
 	
@@ -258,7 +263,8 @@ function blogroll (userOptions) {
 			options.cursorMovedCallback (theRow.index ());
 			}
 		
-		theTable = $("<table class=\"divBlogrollTable\"></table>");
+		const quietTableClass = (options.flQuietMode) ? " divQuietTable" : ""; //4/16/24 by DW
+		theTable = $("<table class=\"divBlogrollTable" + quietTableClass + "\"></table>");
 		
 		const theTableBody = $("<tbody></tbody>");
 		theTable.append (theTableBody);
@@ -314,11 +320,15 @@ function blogroll (userOptions) {
 			}
 		
 		function appendTitleAboveTable () {
-			if (options.flDisplayTitle) {
+			if (options.flDisplayTitle && (!options.flQuietMode)) {
 				const divBlogrollTitle = $("<div class=\"divBlogrollTitle\"></div>");
 				divBlogrollTitle.append ($("<div class=\"divTitleText\">" + options.title + "</div>"));
 				divBlogroll.append (divBlogrollTitle);
 				}
+			}
+		function getQuietTitle () { //4/16/24 by DW
+			const divQuietTitle = $("<div class=\"divQuietTitle\">" + options.title + "</div>");
+			return (divQuietTitle);
 			}
 		function appendSortLinksAboveTable () { //2/19/24 by DW
 			if (options.flSortLinks) {
@@ -655,6 +665,10 @@ function blogroll (userOptions) {
 		const where = whereToAppend (); //3/15/24 by DW
 		where.append (getBlogrollMenu ());
 		
+		if (options.flQuietMode && options.flDisplayTitle) { //4/16/24 by DW
+			where.append (getQuietTitle ());
+			}
+		
 		where.click (function () { //3/17/24 by DW -- didn't get this working
 			$(this).focus ();
 			if (where.is (":focus")) {
@@ -662,7 +676,8 @@ function blogroll (userOptions) {
 				}
 			});
 		
-		divBlogroll = $("<div class=\"divBlogroll\"></div>");
+		const quietBlogrollClass = (options.flQuietMode) ? " divQuietBlogroll" : ""; //4/16/24 by DW
+		divBlogroll = $("<div class=\"divBlogroll" + quietBlogrollClass + "\"></div>");
 		where.append (divBlogroll);
 		
 		appendTitleAboveTable (); //2/17/24 by DW
@@ -759,5 +774,9 @@ function blogroll (userOptions) {
 		copyUserOptions (userOptions);
 		theTable.trigger ("buildBlogroll");
 		};
+	
+	$(".divBlogrollContainer").click (function () {
+		this.focus ();
+		});
 	
 	}

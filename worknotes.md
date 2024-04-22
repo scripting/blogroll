@@ -1,3 +1,25 @@
+#### 4/21/24; 10:03:26 AM by DW
+
+Release v0.4.6, the first version with quiet mode. 
+
+Test, and immediately start work on 0.4.7, which will have tweaks in the CSS so the blogroll looks good when you install it on a wordpress site via the plugin.
+
+The work is documented <a href="https://github.com/a8cteam51/feedland-blogroll/issues/11">here</a>. 
+
+#### 4/20/24; 11:09:29 AM by DW
+
+Fixed bug in blogroll code, we were making all feedland calls to feedland.social, we weren't correctly passing the param to the feedland function.
+
+Also changed the default for urlFeedlandServer and urlSocketServer to be for feedland.com.
+
+#### 4/16/24; 11:10:34 AM by DW
+
+Let's make it possible for the blogroll to be more quiet. 
+
+big changes that could break apps --
+
+divBlogrollContainer used to say the background-color as white, now we don't do that
+
 #### 4/4/24; 11:31:55 AM by DW
 
 In the demo page we were including smallbootstrap.css, but that's wrong. 
