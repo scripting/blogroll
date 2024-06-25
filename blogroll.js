@@ -4,6 +4,8 @@ function feedland (userOptions) { //3/16/24 by DW
 		urlSocketServer: "wss://feedland.com:443/_ws/",
 		flShowSocketMessages: true
 		}
+	var mySocket = undefined, idSocketChecker = undefined;
+	
 	if (userOptions !== undefined) { //allow caller to override defaults
 		for (x in userOptions) {
 			if (userOptions [x] !== undefined) {
@@ -12,6 +14,9 @@ function feedland (userOptions) { //3/16/24 by DW
 			}
 		}
 	
+	function nowstring () { //4/30/24 by DW
+		return (new Date ().toLocaleTimeString ());
+		}
 	function feedNotInDatabase (theFeed) { //6/3/23 by DW
 		const flFeedInDatabase = theFeed.whenCreated !== undefined;
 		return (!flFeedInDatabase);
@@ -36,7 +41,6 @@ function feedland (userOptions) { //3/16/24 by DW
 		servercall ("getfeeditems", params, false, callback, options.urlFeedlandServer);
 		}
 	function openSocket (handleUpdateCallback) { 
-		var mySocket = undefined;
 		function checkConnection () {
 			if (mySocket === undefined) {
 				mySocket = new WebSocket (options.urlSocketServer); 
@@ -78,14 +82,22 @@ function feedland (userOptions) { //3/16/24 by DW
 					};
 				}
 			}
-		self.setInterval (checkConnection, 1000);
+		idSocketChecker = self.setInterval (checkConnection, 1000);
+		}
+	function closeSocket () { //6/22/24 by DW
+		if (mySocket !== undefined) {
+			mySocket.close ();
+			clearInterval (idSocketChecker);
+			idSocketChecker = undefined;
+			mySocket = undefined;
+			}
 		}
 	
 	this.getFeedItems = getFeedItems;
 	this.getFeedlistFromOpml = getFeedlistFromOpml;
 	this.openSocket = openSocket;
+	this.closeSocket = closeSocket; //6/22/24 by DW
 	this.feedNotInDatabase = feedNotInDatabase;
-	this.openSocket = openSocket;
 	}
 function blogroll (userOptions) {
 	const $ = jQuery; //3/21/24 by DW
@@ -182,10 +194,21 @@ function blogroll (userOptions) {
 	
 	const myFeedland = new feedland (options); //3/16/24 by DW
 	
+	function nowstring () { //4/30/24 by DW
+		return (new Date ().toLocaleTimeString ());
+		}
 	function encode (s) { //8/11/21 by DW
 		s = encodeXml (s);
 		s = replaceAll (s, "'", "&" + "quot;"); //10/15/21 by DW
 		return (s);
+		}
+	function whereToAppend () { //3/15/24 by DW
+		if (options.whereToAppend !== undefined) {
+			return (options.whereToAppend);
+			}
+		else {
+			return ($("#" + options.idWhereToAppend));
+			}
 		}
 	function getTheFeedList (urlBlogrollOpml, callback) {
 		const whenstart = new Date ();
@@ -578,6 +601,7 @@ function blogroll (userOptions) {
 							expandToggle ();
 							moveCursorToRow (theRow); //2/16/24 by DW
 							ev.stopPropagation ();
+							assureBlogrollFocus (); //4/22/24 by DW
 							});
 						return (tdWedge);
 						}
@@ -637,18 +661,15 @@ function blogroll (userOptions) {
 					}
 				});
 			}
-		function whereToAppend () { //3/15/24 by DW
-			if (options.whereToAppend !== undefined) {
-				return (options.whereToAppend);
-				}
-			else {
-				return ($("#" + options.idWhereToAppend));
-				}
-			}
 		function isBlogrollFocus () { //3/17/24 by DW
 			const where = whereToAppend ();
 			const fl = where.is (":focus");
 			return (fl);
+			}
+		function assureBlogrollFocus () { //4/22/24 by DW
+			if (!isBlogrollFocus ()) {
+				whereToAppend ().focus ({preventScroll: true}); //4/23/24 by DW
+				}
 			}
 		function makeSureBlogrollDisplayed () { //2/29/24 by DW
 			const where = whereToAppend ();
@@ -670,7 +691,7 @@ function blogroll (userOptions) {
 			}
 		
 		where.click (function () { //3/17/24 by DW -- didn't get this working
-			$(this).focus ();
+			$(this).focus ({preventScroll: true}); //4/23/24 by DW
 			if (where.is (":focus")) {
 				console.log ("focus");
 				}
@@ -774,9 +795,13 @@ function blogroll (userOptions) {
 		copyUserOptions (userOptions);
 		theTable.trigger ("buildBlogroll");
 		};
+	this.close = function () { //6/22/24 by DW
+		myFeedland.closeSocket ();
+		whereToAppend ().empty ();
+		};
 	
 	$(".divBlogrollContainer").click (function () {
-		this.focus ();
+		this.focus ({preventScroll: true}); //4/23/24 by DW
 		});
 	
 	}

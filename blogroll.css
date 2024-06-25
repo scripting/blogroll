@@ -269,6 +269,15 @@
 		padding-bottom: 1px;
 		}
 
+/* 6/11/24 by DW */
+	.divNewsPod .spItemPubdate a {
+		color: inherit;
+		cursor: pointer;
+		text-decoration: underline !important;
+		}
+
+
+
 @media screen and (max-width: 576px) { /* phones */
 	.divBlogrollContainer {
 		width: 180px;

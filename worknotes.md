@@ -1,3 +1,15 @@
+#### 6/22/24; 1:01:45 PM by DW
+
+New feedland call that closes the socket. 
+
+This was needed if an app can display more than one blogroll, it has to have a way to release the websocket that was opened by the previous blogroll. 
+
+#### 4/23/24; 1:03:59 PM by DW
+
+if the top of the blogroll container is off-screen it would scroll to make it visible. this is distracting, since the user is focused on the thing they clicked on. 
+
+we now prevent the scrolling with the preventScroll option.
+
 #### 4/21/24; 10:03:26 AM by DW
 
 Release v0.4.6, the first version with quiet mode. 
